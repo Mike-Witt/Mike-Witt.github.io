@@ -1,0 +1,16 @@
+AuthUserFile /home/sg/.htpasswd
+    AuthGroupFile /dev/null
+    AuthName "Study Group Pages on Vector"
+    AuthType Basic
+<Limit GET>
+    require user mike
+    require user tina
+    require user connie
+    require user gene
+    require user harland
+    require user laurel
+    require user sharon
+    require user jen
+    require user brian
+    require user guest
+</Limit>

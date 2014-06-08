@@ -1,0 +1,293 @@
+<title>Supplementary Notes - 27 Jan 2014</title>
+
+<link rel="shortcut icon" 
+      href="http://localhost/Icons/point.ico">
+
+<!- the following loads MathJax from the standard place ->
+<script src=
+"http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+type="text/javascript">
+</script>
+
+<!- the following allows a single dollar sign for inline equations ->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+<hr>
+<center>
+<h2>Supplementary Notes - 27 Jan 2014</h2>
+</center>
+<hr>
+Here's some review of what we talked about on Sunday, and some new
+stuff that goes with it. Basically, I want to make sure we are clear
+on the following concepts:
+<ol>
+<li> <a href="#space">Vector Spaces</a>
+<li> <a href="#dim">Dimension</a>
+<li> <a href="#comb">Linear Combination</a>
+<li> <a href="#ind">Linear Independence</a>
+<li> <a href="#base">Bases and Basis Vectors</a>
+<li> <a href="#on">Orthonormality</a>
+<li> <a href="#proj">Projection</a>
+<li> <a href="#change">Change of Basis</a>
+</ol>
+
+<ol>
+<a name=space>
+<li> <h3>Vector Spaces</h3>
+    A vector space is "an abstract mathematical space in which all of
+    the vectors we're talking about live." For example,
+    when we draw the x/y coordinate system on the board, the "all the
+    vectors we're talking about" are the arrows that can be drawn
+    (starting from the origin) on the board. The vector space they
+    "live" in is the 2-D plane. When we talk about "regular old" 3
+    dimensional space, then "all the vectors" are any arrow that you
+    can draw in that space. So, for "real" spaces like this, the
+    vector space is just a mathematical representation of the physical
+    space. <i>Later</i> we will encounter other kinds of vector spaces,
+    but that's enough for now.
+
+<a name=dim>
+<li> <h3>Dimension</h3>
+    A vector space has a dimension, and an individual vector has a dimension.
+    The dimension of a vector is the <i>same</i> as the dimension of the space
+    that it lives in. You could think of the dimension as any of the following:
+    <ul>
+    <li> The number of elements in the vector.
+    <li> The number of physical dimensions of the space (if it's a physical
+        space).
+    <li> The number of basis vectors necessary to specify a basis for
+        the space.
+    </ul>
+    All three of the above are equivalent.
+
+<a name=comb>
+<li> <h3>Linear Combination</h3>
+    (I don't believe we covered this before.)
+    <p>
+    A <i>linear combination</i> of vectors is simply something like this:
+    <p>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $a| v_1\rangle + b| v_2\rangle +c| v_3\rangle$
+    <p>
+    where $a$, $b$, and $c$ are <i>scalars</i> (which means they're just
+    regular numbers, not vectors). In other words, a linear combination
+    of vectors is just a bunch of vectors multiplied by something and
+    added together. The only reason you need to know this is because the
+    term "linear combination" is used all over the place.
+
+<a name=ind>
+<li> <h3>Linear Independence</h3>
+    (I don't believe we covered this before.)
+    <p>
+    A vector $|v_1\rangle$ is <i>linearly independent</i> of the vectors
+    $|v_2\rangle$ and $|v_3\rangle$ if there is no possible linear combination
+    such that:
+    <p>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $| v_1\rangle = a| v_2\rangle +b| v_3\rangle$
+    <p>
+    A couple of examples:
+    <p>
+    (1) Draw the vector (1 0) on a piece of paper. (The arrow from the
+        origin the the point 1 on the x-axis.) Then draw the vector
+        (2 3) (The arrow going to the point x=2, y=3.) The vector (2 3)
+        is linearly independent of the vector (1 0) because there is nothing
+        you can multipy (1 0) by to get (2 3).
+    <p>
+    (2) Now add the vector (0 1) to the drawing (the arrow going straight
+        up the y-axis). The vector (2 3) is <i>not</i> linearly independent
+        of (1 0) and (0 1) together because you can add them together in
+        a linear combination to get (2 3):
+    <p>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    (2 3) = 2(1 0) + 3(0 1)
+
+<a name=base>
+<li> <h3>Bases and Basis Vectors</h3>
+    A <i>basis</i> for a given vector space is a <i>set</i> of vectors which
+    can be used, in a linear combination, to make up <i>any</i> vector in
+    the space. In other words, there are no vectors in the space which are
+    linearly independent of the (full set of) basis vectors.
+    <p>
+    Typically, a vector space will have an infinite number of different
+    <i>bases</i> that you can choose from. There is often one "obvious"
+    basis, such as the two vectors (1 0) and (0 1) in the 2-D plane.
+
+<a name=on>
+<li> <h3>Orthonormality</h3>
+    Two vectors are <i>orthogonal</i> to one another if their inner product
+    is zero. That is, $| v\rangle$ and $| w\rangle$ are orthogonal
+    if:
+    <p>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+     $\langle v| w\rangle$ = $\langle w| v\rangle$ = 0
+    <p>
+    In a physical space, two orthogonal vectors have a $90^\circ$
+    angle between them.
+    <p>
+    A vector can be called either <i>normal</i> or <i>normalized</i>
+    if its length is 1.
+    <p>
+    A basis is <i>orthonormal</i> if all the basis vectors are normalized and
+    each basis vector is orthogonal to every other basis vector.
+
+<hr>
+<font color=green><b>
+I realize that we haven't covered the next two topics at all, yet. here's
+a quick look at projection and change of basis. We'll talk about them in
+as much detail as needed, next Sunday. I think it would be good to cover
+these before going on to matrices.
+</b></font>
+<hr>
+
+<a name=proj>
+<li> <h3>Projection</h3>
+    <p>
+    A vector can be thought of as a list of <i>components</i>. For example
+    the vector (a b c) has the three components: "a", "b", and "c."
+    Each component is simply a multiplier for one of the basis vectors.
+    for example, take the vector: (2 3) on the 2-D plane. This vector
+    is a linear combination of the basis vectors (1 0) and (0 1):
+    <p>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    (2 3) = 2(1 0) + 3(0 1)
+    <p>
+    The "2" is just the multiplier for the first basis vector and the
+    "3" is the multiplier for the 2nd. If you "carry out the operations"
+    from the formula above, it will go like this:
+    <p>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    (2 3) = 2(1 0) + 3(0 1) = (2 0) + (0 3) = (2 3)
+    <p>
+    Another way to look at this is that the "2" is the <i>projection</i>
+    of (2 3) on to the x-axis and the "3" is the projection on to the
+    y-axis. In this case "projection" just means drawing a line straight
+    over from the head of the vector to the axis of interest.
+    <p>
+    If you have a vector $|v\rangle$ and a basis vector $|b\rangle$,
+    then you can obtain the projection of $|v\rangle$ onto $|b\rangle$
+    by using the inner product, like this:
+    <p>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    (the projection) = $\langle b| v\rangle$
+    <p>
+    The projection gives you one of the components of  $|v\rangle$.
+    <p>
+    So let's go all through this with the basis vectors (1 0) and (0 1)
+    and the vector (2 3). As you've noticed, it's not always convenient
+    to create column vectors when you're typing. So I'm just specifying
+    all the vectors in row format. But if I put them in a ket, then they're
+    a column and if I put them in a bra, then they're a row. So, let's
+    proceed ...
+    <p>
+    The <i>basis</i> consists of two vectors:
+    <p>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $b_1$ = (1 0) and $b_2$ = (0 1)
+    <p>
+    And the vector of interest is:
+    <p>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $v$ = (2 3)
+    <p>
+    We find the first <i>component</i> of $v$ by projecting it onto
+    the first basis vector:
+    <p>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $\langle b_1| v\rangle$ = 2
+    <p>
+    And the 2nd component by projecting it onto the 2nd basis vector:
+    <p>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $\langle b_2| v\rangle$ = 3
+    <p>
+    Obviously, I'm not actually writing out all the steps here, so
+    <i>please actually work out the two inner products above.</i>
+    
+<a name=change>
+<li> <h3>Change of Basis</h3>
+    <p>
+    The inner products in the last section were really trivial, and
+    might have seemed pointless. But this becomes more interesting when you
+    want to change from one basis to another. I'm not going to try to
+    write about this in detail here, but I'll give a short explanation.
+    Try it out, if you can. In any event, we'll discuss it in detail on
+    the board.
+    <p>
+    Another possible basis for the 2-D plane is the set of vectors:
+    <p>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $b_1= (1/\sqrt{2},\;\; 1/\sqrt{2})$ and $b_2=(1/\sqrt{2},\;\; -1/\sqrt{2})$.
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    (I put in the commas here just to make things more clear. )
+    <p>
+    In case you don't recognize them, these were the "blue" basis vectors
+    from last Sunday. Suppose that we want to "change to the blue basis."
+    We can get the two components of the vector $v$ = (2 3) in the new basis
+    by doing the two projections:
+    <p>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $\langle b_1| v\rangle = 5/\sqrt{2}$
+    <p>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $\langle b_2| v\rangle = -1/\sqrt{2}$
+    <p>
+    This means that, in the "blue" basis, the vector $v$ would be
+    $\left(\frac{5}{\sqrt{2}},\;\;\frac{-1}{\sqrt{2}}\right)$.
+    <p>
+    Or, equivalently, it means that we know how to construct $v$ out
+    of the "blue" basis vectors by doing the following linear combination:
+    <p>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $v =
+    \frac{5}{\sqrt{2}}\left(\frac{1}{\sqrt{2}},\;\; \frac{1}{\sqrt{2}}\right)
+    +\frac{-1}{\sqrt{2}}\left(\frac{1}{\sqrt{2}},\;\; \frac{-1}{\sqrt{2}}\right)
+    $
+    <p>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;
+    $
+    = \left(\frac{5}{2},\;\; \frac{5}{2}\right)
+    +\left(\frac{-1}{2},\;\; \frac{1}{2}\right)
+    $
+    <p>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;
+    $= \left(\frac{4}{2},\;\; \frac{6}{2}\right)$
+    <p>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;
+    $= \left(2,\;\; 3\right)$
+    <p>
+    OK, I <i>really</i> hope I didn't make any arithmetic errors! Unless
+    everything that's happened so far is completely clear to you, you should
+    probably stop now. If you <i>are</i> able to reproduce all the calculations
+    above, then here is one more thing. The general formula for the
+    calculation of an arbitrary vector's components in an arbitrary basis ...
+    <p>
+    Given that we have the basis: $\{b_n\}$ (meaning that we have a basis made
+    out of the set of basis vectors: $b_1, b_2,$ ... and so on), then the
+    $n$th component of $v$ is:
+    <p>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $v_n = \langle b_n | v\rangle$
+    <p>
+    and the entire vector $v$ is simply the sum of all those
+    components times the corresponding basis vectors:
+    <p>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    $v = \displaystyle\sum_{n} \langle b_n | v\rangle | b_n\rangle$
+    <p>
+    This formula is one that you will see often in, for example,
+    quantum computing textbooks.
+    
+</ol>
+<hr>
+<pre>
+
+</pre>
