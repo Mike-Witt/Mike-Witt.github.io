@@ -1,3 +1,4 @@
+<?php require "/home/mike/Projects/php/functions.php"; ?>
 <title>Sunday Study Group</title>
 <link rel="shortcut icon" href="http://localhost/Icons/peace.ico">
 
@@ -8,7 +9,14 @@
 
 <hr>
 <center>
-<h2>Sunday Group Home Page on Github</h2>
+<h2>Sunday Group Home Page on Vector</h2>
+<?php
+print(DateStr()." (Pacific Time)<br>\n");
+print("Remote Address: ".$_SERVER[REMOTE_ADDR]." / ");
+print("User: ".$_SERVER[PHP_AUTH_USER]."<br>\n");
+print("<p>\n");
+Trace("[SG]   IP: ".$_SERVER[REMOTE_ADDR]." / "."User: ".$_SERVER[PHP_AUTH_USER]);
+?>
 </center>
 <hr>
 
@@ -53,16 +61,23 @@
 <font color=black>
 You can't just click on these to download them.
 <br>
+<!---
 In Firebox, I think you should be able to
 right click on the name and select "Save Link As ..." 
 <br>
 If somebody knows how to do it in other browsers, let met know.
+--->
 <br>
 <b>Don't forget that you also need the current version of sglib.py!</b>
 </font>
 <ul>
 <p>
-<li> <b><a href="Electron_Spin.ipynb">Electron_Spin.ipynb</a></b>
+<li> <b>
+    <a href="http://nbviewer.ipython.org/url/Electron_Spin.ipynb">
+        Electron_Spin.ipynb</a> / 
+    <a href="Electron_Spin.ipynb">
+        Download</a>
+    </b>
     <br>Tutorial on electron spin in arbitrary directions.
 <p>
 <li> <b><a href="Matrix_Operators.ipynb">
