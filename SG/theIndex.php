@@ -61,8 +61,10 @@ Trace("[SG]   IP: ".$_SERVER[REMOTE_ADDR]." / "."User: ".$_SERVER[PHP_AUTH_USER]
 <font color=black>
 You can't just click on these to download them.
 <br>
+<!---
 In Firebox, I think you should be able to
 right click on the name and select "Save Link As ..." 
+--->
 <br>
 If somebody knows how to do it in other browsers, let met know.
 <br>
@@ -70,7 +72,12 @@ If somebody knows how to do it in other browsers, let met know.
 </font>
 <ul>
 <p>
-<li> <b><a href="Electron_Spin.ipynb">Electron_Spin.ipynb</a></b>
+<li> <b>
+    <a href="http://nbviewer.ipython.org/url/Electron_Spin.ipynb">
+        Electron_Spin.ipynb</a> / 
+    <a href="Electron_Spin.ipynb">
+        Download</a>
+    </b>
     <br>Tutorial on electron spin in arbitrary directions.
 <p>
 <li> <b><a href="Matrix_Operators.ipynb">
