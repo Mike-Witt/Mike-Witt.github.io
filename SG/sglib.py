@@ -229,6 +229,29 @@ def print_eigenvectors(O, exact=True, ndigs=3):
 
 #-------------------------------------------------------------------#
 #                                                                   #
+#   Construct a measurement operator from eigenvalues and vectors   #
+#                                                                   #
+#-------------------------------------------------------------------#
+
+def construct_measurement_operator(evals, evecs, Debug=False):
+    from sympy import Matrix, zeros
+    dim = len(evals)
+    D = zeros(dim)
+    V = zeros(dim)
+    for m in range(dim):
+        #print('m=%s'%m)
+        D[m,m] = evals[m]
+        for n in range(dim):
+            #print('n=%s'%n)
+            V[n,m] = evecs[m][n]
+    Vi = V.inv()
+    M = V*D*Vi
+    if Debug:
+        Print('$%s %s %s = %s$'%(myltx(V), myltx(D), myltx(Vi), myltx(M)))
+    return(M)
+
+#-------------------------------------------------------------------#
+#                                                                   #
 #                       "myltx" code                                #
 #                                                                   #
 #-------------------------------------------------------------------#
