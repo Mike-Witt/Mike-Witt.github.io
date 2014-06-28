@@ -4,6 +4,7 @@ push:
 	rm -rf Mike-Witt.github.io
 	git clone https://github.com/Mike-Witt/Mike-Witt.github.io.git
 	cp Makefile Mike-Witt.github.io/Portland-Physics
+	cp *.html   Mike-Witt.github.io/Portland-Physics
 	cp *.ipynb  Mike-Witt.github.io/Portland-Physics
 	cd Mike-Witt.github.io;\
         git add --all;\
