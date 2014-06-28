@@ -1,0 +1,12 @@
+# For vi/vim use Cntl-v <tab> to insert a tab character in 'expandtab' mode
+
+push:
+	rm -rf Mike-Witt.github.io
+	git clone https://github.com/Mike-Witt/Mike-Witt.github.io.git
+	cp Makefile Mike-Witt.github.io/Portland-Physics
+	cp *.*      Mike-Witt.github.io/Portland-Physics
+	cd Mike-Witt.github.io;\
+        git add --all;\
+        git commit -m "checkin from sg dev directory";\
+        git push
+	rm -rf Mike-Witt.github.io
