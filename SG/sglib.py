@@ -250,6 +250,23 @@ def construct_measurement_operator(evals, evecs, Debug=False):
         Print('$%s %s %s = %s$'%(myltx(V), myltx(D), myltx(Vi), myltx(M)))
     return(M)
 
+# This is similar to qs_find_probabilities() in qtlib.py, but this
+# version takes sympy matrices for the operator and state.
+def analyze_measurement(operator, state, V=False):
+    evals, evecs = find_eigenvectors(operator)
+    evs = evecs
+    P = []
+    for ev in evs:
+        if V: print('  ev = %s'%(ev))
+        # ev is one possible outcome of doing the measurement.
+        # We calculate the probability of this particular outcome by
+        # doing: |<ev|state>|^2
+        inner_prod = inner_product(ev, state)
+        prob = inner_prod * inner_prod.conjugate()
+        if V: print('  Prob of result is: %s'%prob)
+        P += [ prob, ]
+    return(P)
+
 #-------------------------------------------------------------------#
 #                                                                   #
 #                       "myltx" code                                #
