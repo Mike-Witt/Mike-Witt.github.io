@@ -61,10 +61,10 @@ megasimp = greedy((funcs, funcs), objective)
 
 # font_fsize is for Print()
 # This is not in "points." I don't know what the "measure" is.
-font_size = 4
+default_font_size = 4
 def set_font_size(size):
-    global font_size
-    font_size = size
+    global default_font_size
+    default_font_size = size
 #
 # Print()
 #
@@ -74,8 +74,7 @@ def set_font_size(size):
 # I imagine there is some "right" way to do it, but I haven't been
 # able to figure it out.
 #
-def Print(thing):
-    global font_size
+def Print(thing, font_size=default_font_size):
     from IPython.core.display import HTML
     from IPython.core.display import display
     display(HTML('<font size=%s>'%font_size+thing+'</font>'))
@@ -173,6 +172,99 @@ def sg_print(obj, exact=True, ndigs=3):
     fm = format(exact, ndigs).do_format
     Print('$%s$'%fm(obj))
 
+#-------------------------------------------------------------------#
+#                                                                   #
+#           sg_format_state(): Format a state for display           #
+#                                                                   #
+#-------------------------------------------------------------------#
+
+# string_tensor() - currently used by sg_format_string() but might
+#   be valuable elsewhere?
+# Status: IN PROGRESS!!! See Bell_Basis notebook
+
+blanks = ''
+def string_tensor(nbits, basis, T=None, ncomp=None):
+    global blanks
+    print(blanks + 'string_tensor(nbits=%s, basis=%s, T=%s, ncomp=%s)'
+        %(nbits, basis, T, ncomp))
+    blanks += '  '
+    if ncomp == None:
+        ncomp = 2**nbits
+        print('ncomp set to %s'%ncomp)
+    if T == None:
+        T = []
+        for n in range(ncomp): T += [ '', ]
+        print('initial T is: %s'%T)
+    comp = 0
+    while comp < ncomp-1:
+        for b in basis:
+            r = ncomp/nbits
+            print('r = %s'%r)
+            for n in range(r):
+                print(blanks + 'Adding %s to T[%s]' %(b, comp))
+                T[comp] += b  
+                comp += 1
+
+    if nbits == 1: return(T)
+    else: return(string_tensor(nbits-1, basis, T, ncomp))
+
+#
+# Notes:
+#   
+#   "state" is a sympy one column matrix that holds the state.
+#
+#   "basis" is a list of text strings. Each string gives the name
+#       of one of the basis stats, for the basis desired.
+#
+#   "separator" indicates whether how to separate the individual "bits." 
+#       separator = ',' -> |0,1>   separator = '' -> |01>
+#
+#   * You probably want to do something like:
+#       fs = sg_format_state(basis=['+z','-z'], separator=',').format
+#       Print('state1 = $%s, state 2 = $%s$$' %(fs(state1), fs(state2)))
+#
+class sg_format_state:
+
+    def __init__(self, basis, separator):
+        self.basis = basis
+        self.separator = separator
+
+    def format(self, state, V=False):
+        from sympy import log
+        nbits = log(len(state),2)
+        if V: print('State has %s bits'%nbits)
+
+        #
+        # "tensor" the basis names to get a complete basis
+        #
+        # B = string_tensor(basis)
+        #
+        # I HAVEN'T WRITTEN THIS CODE YET. SO RIGHT NOW, THIS
+        # ONLY WORKS FOR TWO-BIT STATES. I'LL CHECK TO MAKE
+        # SURE THIS IS ONE ...
+
+        if nbits != 2:
+            print(\
+            'Sorry, right now sg_state_format() only works for 2 bit states')
+            return('[ERROR]')
+       
+        if V: print('self.basis is: %s'%self.basis) 
+        B = []
+        for m in range(nbits):
+            for n in range(nbits):
+                B += [ self.basis[m] + self.separator + self.basis[n], ]
+        if V: print('B is: %s'%B)
+
+        string = ''
+        for n in range(len(state)):
+            comp = state[n]
+            if comp == 0: continue
+            if comp < 0: string += '-'
+            elif len(string) != 0: string += '+'
+            string += myltx(abs(comp))
+            string += '|' + B[n] + r'\rangle'
+        return(string)
+            
 #-------------------------------------------------------------------#
 #                                                                   #
 #                   Creating various objects                        #
