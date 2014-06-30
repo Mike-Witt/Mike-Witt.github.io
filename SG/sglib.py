@@ -180,33 +180,43 @@ def sg_print(obj, exact=True, ndigs=3):
 
 # string_tensor() - currently used by sg_format_string() but might
 #   be valuable elsewhere?
-# Status: IN PROGRESS!!! See Bell_Basis notebook
+#
+# Notes:
+#
+#   "nbits"
+#   "basis"
+#   "separator"
+#   "D" is for debug
+#   (the rest of the arguments are never set by the caller)
+#
+def string_tensor(nbits, basis, separator='', D=False,
+    T=None, ncomp=None, blanks=''):
 
-blanks = ''
-def string_tensor(nbits, basis, T=None, ncomp=None):
-    global blanks
-    print(blanks + 'string_tensor(nbits=%s, basis=%s, T=%s, ncomp=%s)'
+    if D: print(blanks + 'string_tensor(nbits=%s, basis=%s, T=%s, ncomp=%s)'
         %(nbits, basis, T, ncomp))
     blanks += '  '
+    dimension = len(basis)
     if ncomp == None:
-        ncomp = 2**nbits
-        print('ncomp set to %s'%ncomp)
+        ncomp = dimension**nbits
+        if D: print(blanks + 'ncomp set to %s'%ncomp)
     if T == None:
         T = []
         for n in range(ncomp): T += [ '', ]
-        print('initial T is: %s'%T)
+        if D: print(blanks + 'initial T is: %s'%T)
     comp = 0
     while comp < ncomp-1:
-        for b in basis:
-            r = ncomp/nbits
-            print('r = %s'%r)
+        for m in range(dimension):
+            r = dimension**(nbits-1)
+            if D: print(blanks + 'range is %s'%r)
             for n in range(r):
-                print(blanks + 'Adding %s to T[%s]' %(b, comp))
-                T[comp] += b  
+                if D: print(blanks + 'Adding %s to T[%s]' %(basis[m], comp))
+                if len(T[comp]) != 0: T[comp] += separator
+                T[comp] += basis[m]  
                 comp += 1
-
     if nbits == 1: return(T)
-    else: return(string_tensor(nbits-1, basis, T, ncomp))
+    else: return(
+        string_tensor(nbits-1, basis, separator, D, T, ncomp, blanks)
+        )
 
 #
 # Notes:
@@ -229,14 +239,17 @@ class sg_format_state:
         self.basis = basis
         self.separator = separator
 
-    def format(self, state, V=False):
+    def format(self, state, D=False):
         from sympy import log
         nbits = log(len(state),2)
-        if V: print('State has %s bits'%nbits)
+        if D: print('State has %s bits'%nbits)
 
         #
         # "tensor" the basis names to get a complete basis
         #
+        T = string_tensor(nbits, self.basis, self.separator)
+
+        """
         # B = string_tensor(basis)
         #
         # I HAVEN'T WRITTEN THIS CODE YET. SO RIGHT NOW, THIS
@@ -248,12 +261,13 @@ class sg_format_state:
             'Sorry, right now sg_state_format() only works for 2 bit states')
             return('[ERROR]')
        
-        if V: print('self.basis is: %s'%self.basis) 
+        if D: print('self.basis is: %s'%self.basis) 
         B = []
         for m in range(nbits):
             for n in range(nbits):
                 B += [ self.basis[m] + self.separator + self.basis[n], ]
-        if V: print('B is: %s'%B)
+        if D: print('B is: %s'%B)
+        """
 
         string = ''
         for n in range(len(state)):
@@ -262,7 +276,7 @@ class sg_format_state:
             if comp < 0: string += '-'
             elif len(string) != 0: string += '+'
             string += myltx(abs(comp))
-            string += '|' + B[n] + r'\rangle'
+            string += '|' + T[n] + r'\rangle'
         return(string)
             
 #-------------------------------------------------------------------#
