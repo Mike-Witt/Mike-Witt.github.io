@@ -7,6 +7,7 @@ push:
 	cp fstep-2.gif  Mike-Witt.github.io/Portland-Physics
 	cp *.html       Mike-Witt.github.io/Portland-Physics
 	cp *.ipynb      Mike-Witt.github.io/Portland-Physics
+	cp *.py         Mike-Witt.github.io/Portland-Physics
 	cd Mike-Witt.github.io;\
         git add --all;\
         git commit -m "checkin from `hostname`";\
