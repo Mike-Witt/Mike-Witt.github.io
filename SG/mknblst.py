@@ -5,11 +5,16 @@
 import glob
 
 def mklist1():
-    for nb in glob.glob('*.ipynb'):
+    notebooks = glob.glob('*.ipynb')
+    notebooks.sort()
+    for nb in notebooks:
         str = '<li><b><a href="'
         str += 'http://nbviewer.ipython.org/url/mike-witt.github.io/SG/'
-        str += nb + '">' + nb + '</a>'
-        str += ' | <a href="' + nb + '">Download</a></b>'
+        str += nb + '">' + nb + '</a></b>'
+        str += ' | <a href="' + nb + '">Download</a>'
         str += '\n<p>'
-        print str
+        print(str)
+    print("</ul>")
+    print('<pre>\n\n</pre>')
+
 mklist1()
