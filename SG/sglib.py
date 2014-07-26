@@ -9,7 +9,7 @@
 # 1. Basic Setup (Imports and such)
 #
 # 2. Utility Functions
-#    Globally defined functions (and other globals variable?)
+#    Globally defined functions (and other global variables?)
 #
 # 3. Linear Algebra Routines
 #
@@ -22,6 +22,8 @@
 # 5. Electron Spin (Arbitrary direction. Tutorial.)
 #    Uses XYZ stuff from 4.4 Electron Spin
 #    Includes 3D plotting code which should probably be elsewhere
+#    superposition_spin_problem()
+#    arbitrary_spin_problem()
 #
 
 #####################################################################
@@ -84,18 +86,22 @@ def canonical_complex(z):
     re, im = z.as_real_imag()
     return( re+im*i)
 
-# frac(): Enter a fraction (OBSOLETE)
-# This is no longer needed. You should be able to say:
+# frac(): Enter a fraction
+# This is only needed if you want exact fractions. If you just want
+# to be able to say 1/4 == .25 for example then put:
 #
 #   from __future__ import division
 #
-# in your notebook to make expressions like 1/2 work.
+# in your notebook.
 #
 def frac(n,d):
     if type(n) == type(sqrt(2)): return(n/d)
     elif type(n) == type(i): return(n/d)
     if type(d) == type(sqrt(2)): return(n/d)
     elif type(d) == type(i): return(n/d)
+    # Next test needed so that things like: frac(4+3*i,5*sqrt(2))
+    # don't fall through to the 'Rational' line afterward
+    elif type(n) == type(1+i): return(n/d)
     else: return( Rational(n,d) )
 
 #-------------------------------------------------------------------#
@@ -239,6 +245,14 @@ class sg_format_state:
         self.basis = basis
         self.separator = separator
 
+    def neg(self, num):
+        # Test if a number is negative. Return false it it's complex.
+        try:
+            if num < 0: return(True)
+            else: return(False)
+        except TypeError, e:
+            return(False)
+
     def format(self, state, D=False):
         from sympy import log
         nbits = log(len(state),2)
@@ -249,33 +263,21 @@ class sg_format_state:
         #
         T = string_tensor(nbits, self.basis, self.separator)
 
-        """
-        # B = string_tensor(basis)
-        #
-        # I HAVEN'T WRITTEN THIS CODE YET. SO RIGHT NOW, THIS
-        # ONLY WORKS FOR TWO-BIT STATES. I'LL CHECK TO MAKE
-        # SURE THIS IS ONE ...
-
-        if nbits != 2:
-            print(\
-            'Sorry, right now sg_state_format() only works for 2 bit states')
-            return('[ERROR]')
-       
-        if D: print('self.basis is: %s'%self.basis) 
-        B = []
-        for m in range(nbits):
-            for n in range(nbits):
-                B += [ self.basis[m] + self.separator + self.basis[n], ]
-        if D: print('B is: %s'%B)
-        """
-
         string = ''
         for n in range(len(state)):
+            # Get the nth component of the state
             comp = state[n]
+            # Don't print parts that have zero probability
             if comp == 0: continue
-            if comp < 0: string += '-'
-            elif len(string) != 0: string += '+'
-            string += myltx(abs(comp))
+            # If the component is a sympy 'add' type them enclose in ()
+            if type(comp) == type(1+i):
+                if len(string) != 0: string += '+'
+                string += r'\left(' + myltx(comp) + r'\right)'
+            else:
+                # Otherwise, prefix + or - as appropriate
+                if self.neg(comp): string += '-'
+                elif len(string) != 0: string += '+'
+                if comp != 1: string += myltx(abs(comp))
             string += '|' + T[n] + r'\rangle'
         return(string)
             
@@ -399,6 +401,16 @@ def myltx(obj, V=False):
         if V: print str(e)
         return(myltx_frac(obj))
 
+#
+# sg_latex is a better name for use in notebooks.
+#   fmt = sg_latex
+#   Print(r'$\psi = %s$' % fmt(psi))
+#
+sg_latex = myltx
+
+#
+# Subroutine used by 'myltx'
+#
 def myltx_frac(frac):
     # If type is not sympy "mul" return original
     if type(frac) != type(1/sqrt(2)): return(sy.latex(frac))
@@ -787,6 +799,19 @@ z_basis_2bit += [ TP(mZ, pZ), ]
 z_basis_2bit += [ TP(mZ, mZ), ]
 
 def ket(state):
+    # Calls with a string value of 'state' are meant to be used in
+    # notebooks, as an alternative to creating states directly as
+    # column vectors.
+    if state == '+z': return(pZ)
+    if state == '-z': return(mZ)
+    if state == '0': return(pZ)
+    if state == '1': return(mZ)
+    if state == '+x': return(pX)
+    if state == '-x': return(mX)
+    if state == '+y': return(pY)
+    if state == '-y': return(mY)
+    # These calls with a numeric value of 'state' are used here in
+    # sglib itself.
     if state == 1: return(pZ)
     if state == -1: return(mZ)
     if state == 2: return(pX)
@@ -1005,9 +1030,80 @@ def draw_vec(ax, v, color='black', label=None, **args):
     ax.text3D(v[0]*fudge, v[1]*fudge, v[2]*fudge,
         label, color=color, fontsize='16')
 
-# ------------ Start: Electron Spin Problem -------------------------------
+# ------------ Start: Electron Spin Problems -------------------------------
 
-def electron_spin_problem(s_1, s_2, exact=False, ndigs=2, draw_box=False):
+def superposition_spin_problem(psi, meas_basis, quiet=False):
+    psi = megasimp(psi) 
+    length = megasimp(psi.norm())
+    if length != 1 and length != 1.0:
+        Print(r'Error: The state $\psi = %s$ is not normalized'%myltx(psi))
+        return
+    if meas_basis == 'x': bvec = [pX, mX]
+    elif meas_basis == 'y': bvec = [pY, mY]
+    elif meas_basis == 'z': bvec = [pZ, mZ]
+    else:
+        Print('Error: The measurement basis must be \'x\', \'y\', or \'z\'')
+        return
+
+    def P(msg):
+        if not quiet: Print(msg)
+
+    P('<hr size=3') #################################
+    P('<b>Step 1: Write out the state in the z basis</b>')
+    P('First we need to write out the given state as a column vector.')
+    P('We do this simply by substituting in the values of the basis')
+    P('states given, multiplying them by the given probability moduli,')
+    P('and adding it all together. Note that the resulting column')
+    P('vector will automatically be in the z basis.')
+    P(r'$\psi_z=%s$'% myltx(psi))
+
+    P('<hr size=3') #################################
+    P('<b>Step 2: Do a change of basis</b>')
+    P('Now we need to do a change of basis into the specified target')
+    P('basis (in this case, the %s basis). We find the two components '
+        %meas_basis)
+    P(r'of $\psi$ in the %s basis by projecting $\psi$ on to the two'
+        %meas_basis)
+    P(r'%s basis vectors. Suppose we call the two components of $\psi$' 
+        %meas_basis)
+    P(r'in the %s basis by the names $\alpha$ and $\beta$. Then:'
+        %meas_basis)
+    alpha = inner_product(bvec[0], psi)
+    beta = inner_product(bvec[1], psi)
+    psi_new = col(alpha,beta)
+    P(r'$\alpha = \langle +%s| \psi \rangle = %s%s = %s$' %(\
+        meas_basis,\
+        myltx(bvec[0].transpose().conjugate()), myltx(psi),\
+        myltx(alpha)\
+        ))
+    P(r'$\beta = \langle -%s| \psi \rangle = %s%s = %s$' %(\
+        meas_basis,\
+        myltx(bvec[1].transpose().conjugate()), myltx(psi),\
+        myltx(beta)\
+        ))
+    P(r'And the column vector in the %s basis is: $%s$'
+        %(meas_basis, myltx(psi_new)))
+
+    P('<hr size=3') #################################
+    P('<b>Step 3: Calculate the probabilities</b>')
+    P('We can write this in "ket format" in the %s basis by recognizing'
+        %meas_basis)
+    P('that the components of the vector are the same as thing as the')
+    P('probability moduli.')
+    fm = sg_format_state(['+'+meas_basis, '-'+meas_basis], ',').format
+    P(r'$\psi_%s = %s$' %(meas_basis, fm(psi_new)))
+    P('And then calculate the probabilties:')
+    p_plus = megasimp(alpha*alpha.conjugate())
+    p_minus = megasimp(beta*beta.conjugate())
+    P(r'$P(+) = \left|%s\right|^2 = \left(%s\right)\left(%s\right) = %s$'
+        %(myltx(alpha),myltx(alpha),myltx(alpha.conjugate()),myltx(p_plus)))
+    P(r'$P(-) = \left|%s\right|^2 = \left(%s\right)\left(%s\right) = %s$'
+        %(myltx(beta),myltx(beta),myltx(beta.conjugate()),myltx(p_minus)))
+
+    if quiet:
+        Print('$P(+)=%s,\;\;\;\;P(-)=%s$' %( myltx(p_plus), myltx(p_minus) ))
+
+def arbitrary_spin_problem(s_1, s_2, exact=False, ndigs=2, draw_box=False):
     from sympy import cos, sin
     from sympy import acos as arccos
 
