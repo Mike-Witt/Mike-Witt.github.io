@@ -194,7 +194,10 @@ class frame:
             
     # A frame can display itself
     def display(self, figsize=[8,8], points=False, scale='si',
-        bounds = None, V=False):
+        bounds=None, nticks=5, V=False):
+
+        from matplotlib.ticker import MaxNLocator
+        global space_ticks, time_ticks, space_labels, time_labels
 
         for wl in self.wlines:
             if points: var = pyplot.plot(
@@ -214,17 +217,6 @@ class frame:
                 times = np.array(gridline.t)
                 var = pyplot.plot(gridline.x, times, color=grid.color,
                     linestyle='-', linewidth=grid.thickness)
-
-        pyplot.axes().set_aspect(c)
-        if bounds != None:
-            pyplot.axis( [bounds[0], bounds[1], bounds[2], bounds[3]] )
-            
-        if V:
-            print('After doing all the plots ...')
-            ax = pyplot.axes()
-            print('  ax.get_aspect() = %s' %ax.get_aspect())
-            print('  ax.get_xbound() = %s' %[ax.get_xbound()])
-            print('  ax.get_ybound() = %s' %[ax.get_ybound()])
                 
         matplotlib.rcParams['figure.figsize'] = figsize
         pyplot.tick_params(labelbottom='on')
@@ -232,11 +224,30 @@ class frame:
         pyplot.title(self.name)
         pyplot.legend()
 
-        # We're not going to use the labels returned by x/yticks(), but
-        # it appears we need a variable here to accept the values. I tried
-        # doing "space_ticks, = pyplot.xticks()" but that didn't work?
+        ax = pyplot.axes()
+        ax.set_aspect(c)
+        if bounds != None:
+            pyplot.axis( [bounds[0], bounds[1], bounds[2], bounds[3]] )
+
+        if V:
+            print('After doing all the plots ...')
+            ax = pyplot.axes()
+            print('  ax.get_aspect() = %s' %ax.get_aspect())
+            print('  ax.get_xbound() = %s' %[ax.get_xbound()])
+            print('  ax.get_ybound() = %s' %[ax.get_ybound()])
+            print('  ax.get_ybound()[1]*c = %s' %[ax.get_ybound()[1]*c])
+
+        if bounds == None:
+            bounds = []
+            bounds += [ax.get_xbound()[0],]
+            bounds += [ax.get_xbound()[1],]
+            bounds += [ax.get_ybound()[0],]
+            bounds += [ax.get_ybound()[1],]
+
+        if V: print('bounds: %s'%bounds)
+
         space_ticks, junk_labels = pyplot.xticks()
-        time_ticks, junk_labels = pyplot.yticks()
+        time_ticks = np.linspace(bounds[2], bounds[3], nticks)
         # We default to using the original ticks as labels.
         space_labels = space_ticks
         time_labels = time_ticks
@@ -279,8 +290,16 @@ class frame:
 
         else:
             raise(Exception('I don\'t know the "%s" scale options'%scale))
-        pyplot.xticks(space_ticks, space_labels)
-        pyplot.yticks(time_ticks, time_labels)
+        ax.set_xticks(space_ticks)
+        ax.set_xticklabels(space_labels)
+
+        # The next two lines just deletes the first time label. This is to
+        # prevent printing two separate "0"s at the origin.
+        time_ticks = time_ticks[1:]
+        time_labels = time_labels[1:]
+
+        ax.set_yticks(time_ticks)
+        ax.set_yticklabels(time_labels)
 
         # Return the pyplot object so that the user can do final adjustments
         return(pyplot)
