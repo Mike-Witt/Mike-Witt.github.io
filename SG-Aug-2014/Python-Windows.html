@@ -1,0 +1,82 @@
+<center>
+<h3>Setting up Python on Windows (and Mac?)</h3>
+</center>
+<ol>
+<li> Note: You should have a folder on your desktop
+    called: <code>Python</code> and a file
+    in that folder called: <code>SG_Notebook_1.ipynb</code>
+    <br>(from the email I previously sent) before you start this process.
+<p>
+<li> Using your browser, go to:
+    <a href="http://store.continuum.io/cshop/anaconda">
+    http://store.continuum.io/cshop/anaconda</a>
+<p>
+<li> Click on the big blue "Download Anaconda" button near the top right.
+    <br><i>Apparently you have to give them an email address, but
+        they don't appear to do anything to verify it.</i>
+<p>
+<li> It then takes you to a page where you have the option of choosing
+    various different intallers for Mac or Windows.
+    <br>I chose this one:
+    <br><code>
+    Windows 64-bit / 342M / md5: dccc94b5e1b77e56385a318c5c91b6d1</code>
+<p>
+<li> You may get the choice of either running the installer right then,
+    or saving it.
+    <br>I saved it. I ended up with a file called:
+    <code>Anaconda-1.8.0-Windows-x86_64.exe</code>
+    (It appears to be roughly 350 Meg.)
+    <br><i>All through this process I got various warnings that the
+        file I was downloading couldn't be trusted, etc.</i>
+<p>
+<li> I located the file in the downloads folder. I right clicked
+    on it and did "Open" (Note that I could have done "Run as Administrator"
+    -- I didn't do that. I assume this means the installation will only
+    be good for the one user account.)
+<p>
+<li> Once again it warned me that the software wasn't "verified" and so on,
+    and I confirmed to run it anyway.
+    <br>I took all the default options by
+    clicking -- Next, Agree, Next, Next, Install -- to the various questions
+    that came up.
+    <br>At some point it says "Completed" and you have to click
+    "Next" again, and then "Finish."
+<p>
+<li> Open a "Command Prompt" and change directory into your Python folder.
+    <br>I had made my python folder on the desktop and simply called it
+    "Python" so what I typed in the command prompt was:
+    <br><code> cd Desktop\Python</code>
+<p>
+<li> If you type: <code>dir</code>
+    <br>You should see all the files in the folder.
+    Presumably the only thing there is <code>SG_Notebook_1.ipynb</code>
+<p>
+<li> Before you do the next step, it would be a good idea to have a
+    browser window up on the screen. The browswer should not take up the
+    whole screen, so that you can still see the command prompt window.
+<p>
+<li> Now comes the big step. You start up python by typing:
+    <code>ipython notebook --pylab inline</code>
+    <br>It might take a while for anything to happen. Like 30 seconds or more.
+    <br>Eventually, a new tab should appear in the browser
+    called: "IPython Dashboard"
+    and in that tab, among other things, you should see the notebook: 
+    <code>SG_Notebook_1.ipynb</code>.
+    <p>
+    Click on <code>SG_Notebook_1.ipynb</code>
+<p>
+<li> The notebook should "start." Near the top should be a set of pull down
+    menus. Pull down the one called "cell" and select "Run All."
+<p>
+<li> Let it run, and the when it seems to have finished scroll up and down
+    and look things over. There will be a warning after the first "cell"
+    that you can ignore. Otherwise you shouldn't see any obvious error
+    messages, and there should be a bunch of stuff that looks like it
+    might be computer code and resulting "mathematics" of some sort :-)
+<p>
+<li> When you're done, you should be able to stop whatever is running
+    in the Command Prompt window by typing "control c" a couple of times,
+    or simply dismiss the window. It won't hurt anything.
+    <p>
+    <font color=green><b>Let me know if it works!</b></font>
+</ol>

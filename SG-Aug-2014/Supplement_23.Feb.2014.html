@@ -1,0 +1,219 @@
+<title>Supplementary Notes - 23 Feb 2014</title>
+
+<link rel="shortcut icon" 
+      href="http://localhost/Icons/point.ico">
+
+<!- the following loads MathJax from the standard place ->
+<script src=
+"http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+type="text/javascript">
+</script>
+
+<!- the following allows a single dollar sign for inline equations ->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+<hr>
+<center>
+<h2>23 Feb 2014 - Complex Numbers</h2>
+</center>
+<hr>
+<ol>
+<li> <a href="#i">The number $i$</a>
+<li> <a href="#defs">Definitions</a>
+<li> <a href="#ops">Operations</a>
+<li> <a href="#mult">Multiplication</a>
+<li> <a href="#conj">The Complex Conjugate</a>
+<li> <a href="#abs">Absolute Value</a>
+<li> <a href="#div">Division</a>
+</ol>
+
+<ol>
+<a name=i>
+<li> <h3>The number $i$</h3>
+
+We say that "the number $i$" is the square root of negative one, or
+$i=\sqrt{-1}$.
+<p>
+There is nothing "deep" here. It's not as if we've somehow
+<i>discovered</i> what the square root of minus one is, and it turned
+out to be $i$. We have simply made a <i>definition</i>. We define
+a number. We name it $i$. Then we make a rule that when you square
+it you get minus one. $i^2=-1$.
+<p>
+Note that $i$ is not a <i>variable</i> like $x$ or $y$. It is a
+<i>constant</i>. It names a specific number. It just happens to be a
+number that is not on "the number line."
+<p>
+The numbers on the number line are called the <i>real</i> numbers. Therefore,
+$i$ is called an <i>imaginary</i> number. The terms "real" and "imaginary"
+are unfortunate. Cows and horses are real animals. Griffins and unicorns
+(so far as I know) are imaginary animals. It's not like that with "real"
+and "imaginary" numbers. They are all equally real in the normal english
+sense of the word. But we're stuck with these names.
+
+<a name=defs>
+<li> <h3>Basic Definitions</h3>
+    <ol>
+    <li> Any number on the number line is a <i>real number.</i> 
+        <p>
+        Examples are:
+        $-100,\; -2.4,\; 0,\; 1,\; \sqrt{2},\; e,\; \pi,\; \frac{927}{13}$.
+
+    <li> An <i>imaginary number</i> is $i$ multiplied by any real number.
+        <p>
+        For example: $2i$, $\frac{1}{2}i$, $(\sqrt{2})\,i$
+        and $\frac{3i}{7}$ are all imaginary numbers.
+
+    <li> A <i>complex number</i> is a number that has a real part and
+        an imaginary part.
+        <p>
+        Here are some examples:
+        <p>
+        $2 + 3i$ 
+        &nbsp; - the real part is $2$ and the imaginary part is $3i$.
+        <p>
+        $\sqrt{2}$ 
+        &nbsp; - the real part is $\sqrt{2}$ and the imaginary part is $0$.
+        <p>
+        $i$ 
+        &nbsp; - the real part is $0$ and the imaginary part is $(1)i$.
+    </ol>
+    As you can see, the complex numbers include the real and imaginary
+    numbers. So, when we talk about "complex numbers" we are talking
+    about real numbers, imaginary numbers, and numbers that are made
+    up out of both real and imaginary parts.
+    <p>
+It is typical to refere to a complex number by the variable name $z$
+and we say that: $z=a+b\,i$, where $a$ and $b$ are real. This is the same
+thing as definition 3 above.
+     
+<a name=ops>
+<li> <h3>Operations on Complex Numbers</h3>
+Complex numbers have all the operations that real numbers do, including
+addition, subtraction, multiplication, division, absolute value,
+powers, roots, and so on. In addition, they have one more operation
+called: <i>conjugation</i>.
+<p>
+For the time being, we will only be concerned with:
+<ul>
+<li> Addition
+<li> Subtraction
+<li> Multiplication
+<li> Conjugation
+<li> Absolute Value (or Modulus)
+<li> Division
+</ul>
+<p>
+Addition and subtraction are easy. You just add (or subtract) the
+corresponding parts of the number:
+<p>
+$(2+3i) + (1+2i) = (2+1) + (3i+2i) = 3+5i$
+<p>
+$(2+3i) - (1+2i) = (2-1) + (3i-2i) = 1+i$
+<p>
+And, in general:
+<p>
+$(a+bi) + (c+di) = (a+b) + (c+d)i$
+
+<a name=mult>
+<li><h3>Multiplication</h3>
+Multiplying complex numbers is just like multiplying polynomials:
+<p>
+$(a_1 + b_1 i)(a_2 + b_2 i)\\
+    \;\;\;\;\;= a_1 a_2 + a_1 b_2 i + b_1 i a_2 + b_1 i\, b_2 i
+    \;\;\;\;\text{(multiply out all the terms)}\\
+    \;\;\;\;\;= a_1 a_2 + a_1 b_2 i + a_2 b_1 i + b_1 b_2 i^2
+    \;\;\;\;\text{(rearrange things a bit)}\\
+    \;\;\;\;\;= a_1 a_2 + a_1 b_2 i + a_2 b_1 i - b_1 b_2 
+    \;\;\;\;\;\;\;\text{(i squared is -1)}\\
+    \;\;\;\;\;= (a_1 a_2 - b_1 b_2) + (a_1 b_2 + a_2 b_1) i
+    \;\;\;\text{(gather real and imag parts together)}\\
+$
+<p>
+Here are some examples. See if you can get the same results.
+<p>
+$(1+i)(2+3i)=-1+5i$
+<p>
+$(2+3i)(3+2i)=13i$
+<p>
+$\left(\frac{1}{2}i\right)(1-i)=\frac{1}{2}+\frac{i}{2}$
+
+
+<a name=conj>
+<li><h3>Conjugation</h3>
+
+If we have a complex number: $a+bi$ then the <i>complex conjugate</i>
+of that number is: $a-bi$. In other words, we simply "flip the sign"
+of the imaginary part. Complex conjugation is denoted in some books
+by a "*" and in other books by a bar over the number.
+<p>
+Let $z = a+bi$, then:
+<p>
+$z^* = (a+bi)^* = a-bi$
+<p>
+$\bar{z} = \overline{a+bi} = a-bi$
+<p>
+I will most likely use the *. Here are some examples:
+<p>
+$z=1+i$, &nbsp; $z^*=1-i$
+<p>
+$z=-5+\sqrt{2}\,i$, &nbsp; $z^*=-5-\sqrt{2}\,i$
+<p>
+$z=-5i$, &nbsp; $z^*=5i$
+
+<a name=abs>
+<li><h3>Absolute Value or Modulus</h3>
+The <i>absolute value</i> of a complex number is "the square root of
+the number times its conjugate."
+<p>
+$|z| = \sqrt{zz^*}$
+<p>
+If $z = a+bi$, then: $ |z| = |a+bi| = \sqrt{(a+bi)(a-bi)}
+    = \sqrt{a^2+b^2}\;\; \text{(work it out!)}$
+
+<p>
+Just like the absolute value of a real number or a vector, <i>the absolute
+value of a complex number is always a postitive real number.</i>
+<p>
+Terminology note: As the absolute value of a vector is somtimes called
+a "norm" the absolute value of a complex number is sometimes called a
+"modulus". The only reason you need to know about the terms "norm" and
+"modulus" is that you may run into them in books or papers. It's OK just
+to think of all these things as "absolute values."
+
+<a name=div>
+<li><h3>Division</h3>
+The best way to deal with division of complex numbers is to "rationalize"
+the denominator. This can be done by multiplying both the numerator and
+denominator by the conjugate of the denominator.
+<p>
+If I tell you to divide $3+2i$ by $1+i$, then that means you have the
+fraction:
+<p>
+<font size=5>$\frac{3+2i}{1+i}$</font>
+<p>
+The denominator is $1+i$ and its conjugate is $1-i$. So, you multiply
+both the numerator an denominator by $1-i$.
+<p>
+<font size=5>$\frac{3+2i}{1+i}\frac{1-i}{1-i}$</font>
+<p>
+Note that, since you are actually multiplying the original fraction by
+1, you are not changing its value. You're just putting it in a different
+form.
+<p>
+<font size=5>$\frac{3+2i}{1+i}\frac{1-i}{1-i}
+    = \frac{(3+2i)(1-i)}{(1+i)(1-i)}
+    = \frac{5-i}{2} = \frac{5}{2}-\frac{1}{2}i
+$</font>
+<p>
+
+
+</ol>
+<pre>
+
+</pre>
+<hr>
