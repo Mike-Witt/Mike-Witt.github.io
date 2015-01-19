@@ -41,6 +41,10 @@ sy.init_printing()
 Sqrt = sqrt
 matrix = Matrix
 i = sy.I
+pi = sy.pi
+adjoint = sy.adjoint
+transpose = sy.transpose
+conjugate = sy.conjugate
 
 #####################################################################
 #                                                                   #
@@ -1266,7 +1270,7 @@ def arbitrary_spin_problem(s_1, s_2, exact=False, ndigs=2, draw_box=False):
     Print('The angle between $s_1$ and $s_2$ is: $%s$'%fm(theta))
 
     Print(r'The probabilities should be equivalent to:')
-    Print(r'$\cos^2(\theta)=%s$ and $\sin^2(\theta)=%s$'
+    Print(r'$\cos^2(\theta/2)=%s$ and $\sin^2(\theta/2)=%s$'
       %( fm(cos(theta/2)**2), fm(sin(theta/2)**2) ))
 
     # Now draw a picture
