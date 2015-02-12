@@ -3,6 +3,13 @@
 #
 # Python library for the Sunday Group
 #
+# NOTES:
+#
+#   Problem: I've got three different inner product definitions:
+#            ip(), inner_product(), and IP()
+#
+#   Problem: I don't think find_eigenvectors() and print_eigenvectors
+#            actually work right. See the notes there.
 #
 # Contents
 #
@@ -36,7 +43,6 @@ from random import randint
 import numpy as np
 import sympy as sy
 from sympy import latex, Matrix, Rational, sqrt
-from sympy.physics.quantum import TensorProduct as TP
 sy.init_printing()
 Sqrt = sqrt
 matrix = Matrix
@@ -45,6 +51,11 @@ pi = sy.pi
 adjoint = sy.adjoint
 transpose = sy.transpose
 conjugate = sy.conjugate
+
+# Define inner, outer, and tensor products
+def IP(x,y): return( (x.adjoint()*y)[0] )
+def OP(x,y): return( x*y.adjoint())
+from sympy.physics.quantum import TensorProduct as TP
 
 #####################################################################
 #                                                                   #
@@ -257,10 +268,14 @@ class sg_format_state:
         except TypeError, e:
             return(False)
 
-    def format(self, state, D=False):
-        from sympy import log
+    def format(self, state, which_ltx='mine', D=False):
+        from sympy import log, latex
+        from numpy import shape
         nbits = log(len(state),2)
         if D: print('State has %s bits'%nbits)
+
+        if which_ltx == 'mine': ltx = myltx
+        else: ltx = latex
 
         #
         # "tensor" the basis names to get a complete basis
@@ -276,13 +291,17 @@ class sg_format_state:
             # If the component is a sympy 'add' type them enclose in ()
             if type(comp) == type(1+i):
                 if len(string) != 0: string += '+'
-                string += r'\left(' + myltx(comp) + r'\right)'
+                string += r'\left(' + ltx(comp) + r'\right)'
             else:
                 # Otherwise, prefix + or - as appropriate
                 if self.neg(comp): string += '-'
                 elif len(string) != 0: string += '+'
-                if comp != 1: string += myltx(abs(comp))
-            string += '|' + T[n] + r'\rangle'
+                if comp != 1: string += ltx(abs(comp))
+            # Either put it in a bra or a ket, depending
+            if shape(state)[0] > 1:
+                string += '|' + T[n] + r'\rangle'
+            else:
+                string += r'\langle' + T[n] + '|'
         return(string)
             
 #-------------------------------------------------------------------#
@@ -313,6 +332,10 @@ def mat(*l):
 #                       print_eigenvectors                          #
 #                                                                   #
 #-------------------------------------------------------------------#
+
+#  WARNING: I DON'T BELIEVE THIS ACTUALLY WORKS RIGHT. IT APPAERS
+#  THAT SYMPY DOES NOT (ANY LONGER?) JUST RETURN A LIST OF E-VALS
+#  AND E-VECTS! - Feb 2015
 
 def find_eigenvectors(O, V=False):
     # If it's one of our "basic" operators, return the eigenvectors
