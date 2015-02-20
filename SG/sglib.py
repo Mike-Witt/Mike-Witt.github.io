@@ -32,6 +32,9 @@
 #    superposition_spin_problem()
 #    arbitrary_spin_problem()
 #
+# 6. Density Matrix Stuff
+#    Matrix as outer product, partial trace, etc.
+#
 
 #####################################################################
 #                                                                   #
@@ -198,6 +201,9 @@ def sg_print(obj, exact=True, ndigs=3):
 #           sg_format_state(): Format a state for display           #
 #                                                                   #
 #-------------------------------------------------------------------#
+
+# BUG ... THIS DOES NOT APPEAR TO WORK FOR SYMBOLIC VALUES. AT THE
+# LEAST, IT ENCLOSES THEM IN ||.
 
 # string_tensor() - currently used by sg_format_string() but might
 #   be valuable elsewhere?
@@ -1325,4 +1331,201 @@ def arbitrary_spin_problem(s_1, s_2, exact=False, ndigs=2, draw_box=False):
     ax.view_init(elev=5, azim=25)
 
 # ------------ End: Electron Spin Problem -------------------------------
+
+#####################################################################
+#                                                                   #
+#                   6. Density Matrix Stuff                         #
+#                                                                   #
+#####################################################################
+
+class matrix_as_outer_product:
+    def __init__(self, M):
+        from sympy import log
+        dim = M.rows
+        self.M = M
+        if dim != M.cols:
+            raise(Exception(
+                'matrix_as_outer_product(): only works on square matrix'))
+        nbits = log(dim,2)
+        MOP = [] # This list will hold the repr. of M as outer product
+        for row in range(dim):
+            for col in range(dim):
+                # Add in this term's scaler coefficient
+                MOP += [ M[row,col], ]
+                # row number turns into a column vector for each bit
+                MOP += [ self.num_to_bit_vectors(row, nbits), ] 
+                # column number turns into a row vector for each bit
+                MOP += [self.num_to_bit_vectors(col,nbits,rows=True),] 
+        self.MOP = MOP
+    
+    def num_to_bit_vectors(self, num, nbits, rows=False):
+        if rows: vtype = row
+        else: vtype = col
+        num = abs(num)
+        bits = []
+        while num:
+            num, rmost = divmod(num, 2)
+            bits.append(rmost)
+        while len(bits) < nbits: bits.append(0)
+        vecs = []
+        for b in reversed(bits):
+            if b == 0: vecs += [ vtype(1,0), ]
+            else: vecs += [ vtype(0,1), ]
+        return(vecs)
+
+    def bit_vectors_to_num(self, vecs):
+        # Note that the highest order bit is the first vector in the list
+        bitnum = len(vecs)-1
+        num = 0
+        for v in vecs:
+            if v == col(0,1) or v == row(0,1): num += 2**bitnum
+            bitnum -= 1
+        return(num)
+    
+    # Partial trace of the matrix (in "outer product form" only).
+    # "bit" specifies the bit to be traces out (the first bit is zero).
+    def Xpartial_trace(self, bit):
+        MOP = self.MOP
+        new_MOP = []
+        item_index = 0
+        while item_index < len(MOP):
+            coefficient = MOP[item_index]
+            ket = MOP[item_index+1]
+            bra = MOP[item_index+2]
+        
+            # The inner product of the selected bit vectors will either be
+            # zero or one. If it's zero, then the term is being "traced out."
+            # If it's one, we add the term to the new MOP.
+            iprod = (bra[bit] * ket[bit])[0]
+            #Print(r'Doing: $%s %s = %s$' %(latex(bra[bit]),latex(ket[bit]),iprod))
+            if iprod == 1:
+                new_ket = []; new_bra = []
+                # Add in all the bit vectors except for the selected bit
+                for v in range(len(ket)):
+                    if v != bit:
+                        new_ket += [ ket[v], ]
+                        new_bra += [ bra[v], ]
+                new_MOP += [ coefficient, ]
+                new_MOP += [ new_ket, ]
+                new_MOP += [ new_bra, ]
+                    
+            # Point to the next term
+            item_index += 3
+        self.MOP = new_MOP
+
+    # Partial trace of the matrix (in "outer product form" only).
+    # "bit" specifies the bit to be traced out (the first bit is zero).
+    def partial_trace(self, bit):
+        from sympy import Matrix, zeros
+        MOP = self.MOP
+
+        # Create a new matrix full of zeros. Since we are going to trace
+        # out one bit, the dimension will be 1/2 that of the old matrix.
+        dim = self.M.rows/2
+        new_M = Matrix(zeros([dim,dim]))
+
+        # Go through the MOP structure ...
+        item_index = 0
+        while item_index < len(MOP):
+            coefficient = MOP[item_index]
+            ket = MOP[item_index+1]
+            bra = MOP[item_index+2]
+        
+            # The inner product of the selected bit vectors will either be
+            # zero or one. If it's zero, then the term is being "traced out."
+            # If it's one, we add the term to the new MOP.
+            iprod = (bra[bit] * ket[bit])[0]
+            #Print(r'Doing: $%s %s = %s$' %(latex(bra[bit]),latex(ket[bit]),iprod))
+            if iprod == 1:
+                new_ket = []; new_bra = []
+                # Calculate the new bit vectors without the specified bit
+                for v in range(len(ket)):
+                    if v != bit:
+                        new_ket += [ ket[v], ]
+                        new_bra += [ bra[v], ]
+                # Calculate the row and column from the bit vectors
+                row = self.bit_vectors_to_num(new_ket)
+                col = self.bit_vectors_to_num(new_bra)
+                # Add the associated coeff. into the matrix. The reason
+                # I'm *adding* is so that we'll handle a MOP that doesn't
+                # have its terms "simplified" (in case there is such a thing
+                # at some point).
+                new_M[row, col] += coefficient
+                    
+            # Point to the next term
+            item_index += 3
+        self.M = new_M # Save the reduced matrix
+        self.MOP = matrix_as_outer_product(new_M).MOP # Make a new MOP from it
+
+    def latex(self):
+        MOP = self.MOP
+        string = ''
+        item_index = 0
+        while item_index < len(MOP):     
+            coefficient = MOP[item_index]
+            ket = MOP[item_index+1]
+            bra = MOP[item_index+2]
+         
+            # Get the right sign on the coefficient. No plus on the first term.
+            str_coeff = latex(coefficient)
+            sign = '+'
+            if str_coeff[0] == '-':
+                sign = '-'
+                str_coeff = str_coeff[1:len(str_coeff)]
+            if sign == '-': string += sign
+            elif string != '': string += sign
+            string += str_coeff
+        
+            # Build the ket
+            string += '|'
+            for bit in ket:
+                if bit == col(1,0): string += '0'
+                else: string += '1'
+            string += r'\rangle'
+        
+            # Build the bra
+            string += r'\langle'
+            for bit in bra:
+                if bit == row(1,0): string += '0'
+                else: string += '1'
+            string += '|'
+        
+            # Index the the next group
+            item_index += 3
+        return(string)
+
+    def Xas_matrix(self):
+        from sympy import Matrix, zeros
+        from numpy import sqrt
+        dim = int(sqrt(len(self.MOP)/3))
+        M = Matrix(zeros([dim,dim])) 
+        item_index = 0
+        for row in range(dim):
+            for col in range(dim):
+                M[row,col] = self.MOP[item_index] # We only need the coeff.
+                item_index += 3
+        return(M)
+        
+    # Make a verbose trace operation for demo purposes:
+    def Tr(self, M, basis, V=False):
+        if V: Print('Trace operation:')
+        result = 0
+        for phi in basis:
+            phi_bra = phi.transpose().conjugate()
+            temp1 = megasimp(M*phi)
+            temp = megasimp(phi_bra*M*phi)
+            temp = temp[0] # Sympy gives a 1x1 matrix result
+            if V: Print(r'$\;\;\;\; %s %s %s$' %(\
+                myltx(phi_bra),\
+                myltx(M),\
+                myltx(phi)))
+            if V: Print(r'$\;\;\;\;\;\;\;\; = %s %s$' %(\
+                myltx(phi_bra),\
+                myltx(temp1)))
+            if V: Print(r'$\;\;\;\;\;\;\;\; = %s$' %myltx(temp))
+            result += temp
+        if V: Print(r'$\;\;\;\; = %s$' %myltx(result))
+        return(result)
+
+# ------------ End: Density Matrix Stuff --------------------------------
 
