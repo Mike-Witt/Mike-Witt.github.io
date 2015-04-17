@@ -266,6 +266,13 @@ class sg_format_state:
         self.basis = basis
         self.separator = separator
 
+    def separate_sign(self, num):
+        from sympy import Symbol
+        # Use latex to get the sign
+        lstr = latex(num)
+        if lstr[0] == '-': return('-', -num)
+        else: return('+', num) 
+
     def neg(self, num):
         # Test if a number is negative. Return false it it's complex.
         try:
@@ -300,9 +307,12 @@ class sg_format_state:
                 string += r'\left(' + ltx(comp) + r'\right)'
             else:
                 # Otherwise, prefix + or - as appropriate
-                if self.neg(comp): string += '-'
+                sign, comp = self.separate_sign(comp)
+                if D: print('sign=%s, comp=%s' %(sign, comp))
+                if sign == '-': string += '-'
                 elif len(string) != 0: string += '+'
-                if comp != 1: string += ltx(abs(comp))
+                if comp != 1: string += ltx(comp)
+
             # Either put it in a bra or a ket, depending
             if shape(state)[0] > 1:
                 string += '|' + T[n] + r'\rangle'
@@ -1338,6 +1348,36 @@ def arbitrary_spin_problem(s_1, s_2, exact=False, ndigs=2, draw_box=False):
 #                                                                   #
 #####################################################################
 
+# The purity of a density matrix. See Density notebook.
+def Purity(rho):
+    return( (rho*rho).trace() )
+    
+# The Von Neumann Entropy of a density matrix. See Density notebook.
+# Defaults to base 2.
+def Entropy(rho, base=2, V=False):
+    from sympy import log
+    s = 0
+    if V: print('Using base %s'%base)
+    evals = rho.eigenvals()
+    for lambda_n, times in sorted(evals.items()):
+        if V: print('%s appears %s times'%(lambda_n, times))
+        for m in range(times):
+            if lambda_n == 0: pass # Define 0*log_2(0) to be zero
+            else: s += lambda_n * log(lambda_n, base)
+            if V: print('s=%s'%s)
+    return(-s)
+
+#
+# examine_dm() looks at a density matrix and prints various information
+# about it, including the purity and entropy.
+#
+def examine_dm(rho):
+    purity = (rho*rho).trace() # purity Tr(rho^2) P.40 (2.30)
+    purity = float(purity)
+    S = float(Entropy(rho))
+    Print(r'$\rho=%s,\;\;\mathrm{Tr}(\rho^2)=%.3f,\;\;S=%.3f$'
+        %(myltx(rho), purity, S))
+
 class matrix_as_outer_product:
     def __init__(self, M):
         from sympy import log
@@ -1381,37 +1421,6 @@ class matrix_as_outer_product:
             if v == col(0,1) or v == row(0,1): num += 2**bitnum
             bitnum -= 1
         return(num)
-    
-    # Partial trace of the matrix (in "outer product form" only).
-    # "bit" specifies the bit to be traces out (the first bit is zero).
-    def Xpartial_trace(self, bit):
-        MOP = self.MOP
-        new_MOP = []
-        item_index = 0
-        while item_index < len(MOP):
-            coefficient = MOP[item_index]
-            ket = MOP[item_index+1]
-            bra = MOP[item_index+2]
-        
-            # The inner product of the selected bit vectors will either be
-            # zero or one. If it's zero, then the term is being "traced out."
-            # If it's one, we add the term to the new MOP.
-            iprod = (bra[bit] * ket[bit])[0]
-            #Print(r'Doing: $%s %s = %s$' %(latex(bra[bit]),latex(ket[bit]),iprod))
-            if iprod == 1:
-                new_ket = []; new_bra = []
-                # Add in all the bit vectors except for the selected bit
-                for v in range(len(ket)):
-                    if v != bit:
-                        new_ket += [ ket[v], ]
-                        new_bra += [ bra[v], ]
-                new_MOP += [ coefficient, ]
-                new_MOP += [ new_ket, ]
-                new_MOP += [ new_bra, ]
-                    
-            # Point to the next term
-            item_index += 3
-        self.MOP = new_MOP
 
     # Partial trace of the matrix (in "outer product form" only).
     # "bit" specifies the bit to be traced out (the first bit is zero).
@@ -1493,18 +1502,6 @@ class matrix_as_outer_product:
             # Index the the next group
             item_index += 3
         return(string)
-
-    def Xas_matrix(self):
-        from sympy import Matrix, zeros
-        from numpy import sqrt
-        dim = int(sqrt(len(self.MOP)/3))
-        M = Matrix(zeros([dim,dim])) 
-        item_index = 0
-        for row in range(dim):
-            for col in range(dim):
-                M[row,col] = self.MOP[item_index] # We only need the coeff.
-                item_index += 3
-        return(M)
         
     # Make a verbose trace operation for demo purposes:
     def Tr(self, M, basis, V=False):
