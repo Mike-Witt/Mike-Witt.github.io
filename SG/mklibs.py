@@ -13,6 +13,5 @@ def mklibs():
         str += '\n<p>'
         print(str)
     print("</ul>")
-    print('<pre>\n\n</pre>')
 
 mklibs()
