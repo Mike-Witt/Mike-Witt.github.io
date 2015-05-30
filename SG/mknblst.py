@@ -5,7 +5,8 @@
 import glob
 
 def mklist1():
-    notebooks = glob.glob('*.ipynb')
+    notebooks = glob.glob('0*.ipynb')
+    notebooks = glob.glob('1*.ipynb')
     notebooks.sort()
     for nb in notebooks:
         str = '<li><b><a href="'
