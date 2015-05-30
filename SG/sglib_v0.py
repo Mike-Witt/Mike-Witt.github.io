@@ -94,9 +94,11 @@ def set_font_size(size):
 # I imagine there is some "right" way to do it, but I haven't been
 # able to figure it out.
 #
-def Print(thing, font_size=default_font_size):
+def Print(thing, font_size=None):
+    global default_font_size
     from IPython.core.display import HTML
     from IPython.core.display import display
+    if font_size==None: font_size=default_font_size
     display(HTML('<font size=%s>'%font_size+thing+'</font>'))
 
 # Doesn't simpy have a better way to do this?
@@ -1065,11 +1067,10 @@ class Arrow3D(FancyArrowPatch):
 #
 # But calling it like this will draw the vector I want
 # 
-def draw_vec(ax, v, color='black', label=None, **args):
+def draw_vec(ax, v, color='black', label=None, fudge=1.1, **args):
     V = Arrow3D([0,float(v[0])],[0,float(v[1])],[0,float(v[2])],
                 mutation_scale=20, lw=1, arrowstyle="-|>", color=color, **args)
     ax.add_artist(V)
-    fudge=1.1
     ax.text3D(v[0]*fudge, v[1]*fudge, v[2]*fudge,
         label, color=color, fontsize='16')
 
