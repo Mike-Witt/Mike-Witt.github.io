@@ -23,6 +23,19 @@
 </noscript>
 <!-- End of StatCounter Code for Default Guide -->
 
+<!- ----- the following loads MathJax from the standard place ----- ->
+<script src=
+"http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+type="text/javascript">
+</script>
+<!- And the following allows a single dollar sign for inline equations ->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<!- -------------------------------------------------------------- ->
+
 </head>
 
 <hr>
@@ -53,12 +66,52 @@
 </table>
 <hr>
 
-<h3><a href="http://mike-witt.github.io/SG-Aug-2014">The 2014 Quantum Class</a></h3>
-This is a snapshot of the class in August 2014.
+<h3>The Sunday "Quantum Class"</h3>
+For the past couple of years, my wife and I have taught a <i>very</i> simple
+introduction to quantum theory, as a kind of free "community" class. The
+idea is to explain just the basics, using the simplest possible mathematical
+framework. This ends up being quantum theory in the "finite vector space"
+$C^N$. The only prerequisite for the class is just basic (High School) algebra,
+and much of the what is taught is actually an introduction to linear algebra
+(vectors and matrices).
+<p>
+With this relatively simple mathematical framework it is then possible to
+quantitatively discuss quantum theory in a discrete setting, like that
+typically used for quantum information and quantum computing.
+Topics that can be covered include: Electron spin, Entanglement, Quantum
+Teleportation, and a simplified discussion of quantum correlations that
+violate Bell's Inequality.
+<p>
+The hope is that this kind of information is useful to people who don't
+have the time or background to take a college-level class in quantum mechanics,
+but who would like to go beyond what can be learned from the many popular books
+on quantum physics. Especially in terms of understaning why quantum physics
+<b><i>does not</i></b> imply things like:
+<ul>
+<li> An electron can be in two places at once
+<li> An entangled pair of particles "communicate faster than the speed of light"
+<li> You create reality when you perceive it
+<li> "Entangled minds" could explain ESP
+<li> "Star Trek" like teleportation has been achieved by quantum physicists
+<li> ... and so on.
+</ul>
+
+Here is snapshot of the class in August 2014:
+<ul>
+<li> <a href="http://mike-witt.github.io/SG-Aug-2014">SG-Aug-2014</a>
+</ul>
+
+It contains various PDF notes, and IPython notebooks. Unfortunately these
+represent only part of the material that was covered. Also, the notebooks
+use IPython 2.0, <i>long</i> before the Jupyter integration. You can
+still view them on nbviewer, although some of them look a bit weird. You
+can download them, but I don't know how well they'll run on a current
+IPython/Jupyter installation.  If anyone is interested in doing anything
+further with these materials let me know, and I will assist if I can.
 
 <h3><a href="http://www.meetup.com/Relativity-Exploration-of-Portland">Portland Math and Science Group</a>
 
-<h3><a href="http://www.meetup.com/Denver-Physics-Philosophy-Meetup">Philosophy of Physics Group</a>
+<h3><a href="Ph-Physics">Philosophy of Physics Group</a></h3>
 
-<h3><a href="QA-Life">Quantum Aspects of Life</a>
+<h3><a href="QA-Life">Quantum Aspects of Life</a></h3>
 
