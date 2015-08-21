@@ -1,0 +1,87 @@
+<title>Sim8 Registers</title>
+<body bgcolor=ffffff>
+<h2>Sim8 Registers</h2>
+<p>
+Sim8 has four "user accessible" registers, and four registers that
+are use internally by the CPU but can't be accessed by user programs.
+<p>
+The four user registers are:
+<p>
+<b>AC</b> (Accumulator)
+<p>
+This is the target of most of the logical and arithmetic instructions.
+<p>
+<b>IX</b> (Index Register)
+<p>
+When an instruction uses "indirect" addressing, the index register holds
+the memory address of the operand for that instruction.
+<p>
+<b>SP</b> (Stack Pointer)
+<p>
+Give the location of the "stack" in memory. When  a "CALL" instruction
+are encountered, the computer's registers are pushed on the stack before
+the the subroutine is executed. The "RET" instruction pops the registers
+back off the stack before returning to the calling program.
+<p>
+With only 256 bytes of memory, you need to be careful that your stack
+doesn't grow down and over-run your program or data!
+<p>
+<b>ST</b> (Status Register)
+<p> 
+The SR contains shows the result of various operations and errors
+that might be encountered during the execution of a program.
+<p>
+<pre>
+bit0: Underflow
+bit1: Overflow
+bit2: Divide by zero
+bit3:
+bit4: Illegal instruction (user program will only see zero, since cpu will halt)
+bit5: Processor Halted (user program will only see zero)
+bit6: Machine cycle count (user programs only see zero)
+bit7: Machine cycle count (user programs only see zero)
+
+After an add or multiply operation, bits 0 and 1 are interpreted like this:
+
+00: no carry, the full result is in the accumulator
+01: (can't happen)
+10: there was an overflow or carry
+
+After a subtract or divide operation, bits 0 and 1 are interpreted like this:
+
+00: no borrow, the full result is in the accumulator
+01: underflow or borrow
+10: (can't happen)
+
+After a compare operation, bits 0 and 1 are interpreted like this:
+
+00: accumulator was equal too compared value
+01: accumulator was less than compared value
+10: accumulator was greater than compared value
+</pre>
+<hr>
+<p>
+The four internal registers are:
+<p>
+<b>PC</b> (Program Counter)
+<p>
+The program counter contains the memory address of the next instruction
+to be executed.
+<p>
+<b>I0</b> (Instruction word 0)
+<p>
+During the initial instruction fetch cycle (which is the first cycle of
+every Sim8 instruction) the I0 register is loaded with the first byte of
+the instruction.
+<p>
+<b>I1</b> (Instruction word 1)
+<p>
+For two byte instructions, I1 is loaded with the 2nd byte of the instruction
+during the second fetch cycle.
+<p>
+<b>OP</b> (Operand Register)
+<p>
+For instructions that use "memory" addressing, the operand register is
+loaded with the required operand (typically during the third fetch cycle.)
+
+

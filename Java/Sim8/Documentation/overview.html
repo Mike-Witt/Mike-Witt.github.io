@@ -1,0 +1,94 @@
+<title>The Sim8 "front panel" display</title>
+<body bgcolor=ffffff>
+<h2>The Sim8 "front panel" display</h2>
+<p>
+When Sim8 first starts up, it presents its "front panel" to the user.
+At the top of the display are two pull-down menus titled: "Settings"
+and "Information." The Settings menu is used primarily to open and close
+various windows, and to set the display of the windows to Hexadecimal,
+Decimal, Binary, and ASCII.
+<p>
+Sim8 has the following windows:
+<p>
+<b>Memory</b>
+<p>
+Displays the 256 bytes of Sim8 memory.
+<p>
+<b>Input</b>
+<p>
+This is where you type input that Sim8 will read when an "IN" instruction
+is executed. Setting the "display" of the input window to Hex, Decimal,
+Binary, or ASCII also sets the way data is read.
+<p>
+<b>Output</b>
+<p>
+This is where Sim8 outputs data when it executes an "OUT" instruction.
+<p>
+<b>Debug Window</b>
+<p>
+This window provides a limited number of error and informational messages
+when the simulation is running. If you are having problems, make sure there
+is a debug window open so that you can see any error messages that are
+available.
+<p>
+<b>Front panel registers and buttons</b>
+<p>
+On the main front panel display are 8 registers. The four "user accessible"
+registers: AC, IX, SP, ST and the four "internal" registers: PC, I0, I1, OP.
+<p>
+The front panel also has the following seven buttons:
+<p>
+<b>Power</b>
+<p>
+Turns power off and on. Please note that you can't do much with Sim8 until you
+turn the power on!
+<p>
+<b>Reset</b>
+<p>
+Resets all the registers to 0. Since the program counter is one of the
+registers, this has the effect of resetting the computer back to the
+first instruction in memory. Reset does not clear the memory. If you want
+to do that, you need to turn power off and on.
+<p>
+<b>Load</b>
+<p>
+Loads a program into memory.
+<p>
+<b>Cycle</b>
+<p>
+Executes one "machine cycle." Most instructions take several machine cycles
+to execute. Typically, the first cycle is an "instruction fetch" where the
+next location of memory is read into the I0 register. The second cycle
+then decodes that instruction and might either execute it or might initiate
+a second fetch cycle to read the address of an operand into I1. And so on...
+<p>
+<b>Step</b>
+<p>
+The Step button executes an entire instruction, regardless of how many
+machine cycles are required. This is the button used for the typical
+"single step" debugging operation.
+<p>
+<b>Run</b>
+<p>
+Starts the CPU running. Program execution will begin at whatever location
+the program counter is pointing to. So, before you push the run button
+make sure you notice what value is in the PC. You can hit Reset to position
+the PC back at the start of memory (where programs will typically be loaded.)
+<p>
+The CPU continues to run until either a halt instruction is executed, or
+someone pushes the Stop button.
+<p>
+<b>Stop</b>
+<p>
+Interrupts CPU execution at the end of the current instruction. Leaves the
+PC and all the other registers intact. The program can be re-started where
+it was left off by pushing Run. Or, you can single step from that point
+on with the Step button.
+<p>
+Note that, if an "IN" instruction is executed while you are running, Sim8
+attempts to read a value from the Input window. If there is nothing there,
+Sim8 will wait for you to enter something. If you press Stop while Sim8 is
+waiting for input, the operation will be interrupted and the "IN" instruction
+will return a "0" which will be placed in the accumulator. So you can't
+interrupt an "IN" instruction and expect to get exactly the same results
+that you would during a normal run.

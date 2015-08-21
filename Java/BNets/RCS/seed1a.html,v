@@ -1,0 +1,43 @@
+head	1.1;
+access;
+symbols;
+locks
+	mwitt:1.1; strict;
+comment	@# @;
+
+
+1.1
+date	2007.07.17.23.14.54;	author mwitt;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@<title>Sounds of a Boolean Network Converging</title>
+<body bgcolor=ffffff>
+<pre>
+
+</pre>
+<p>
+<center>
+<h2>
+<img src="BNet.jpg" height=300 width=227 align=center>
+Seed = 1, Midi Patch = 46 
+</h2>
+</center>
+
+<EMBED 
+  SRC="seed1.patch46.mid"
+  AUTOSTART=TRUE 
+  LOOP=FALSE
+  WIDTH=0 HEIGHT=0 hidden="true">
+</EMBED>
+@

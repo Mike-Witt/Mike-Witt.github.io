@@ -1,0 +1,65 @@
+<title>Blocks Design Documentation - Internal Release 0.1</title>
+<body bgcolor=ffffff>
+<h2>Blocks Design Documentation - Internal Release 0.1</h2>
+<hr>
+<b>Introduction</b>
+<p>
+This document ...
+<p>
+<b>Overview</b>
+<p>
+Blocks is an "evolutionary simulation." It consists of a "world", simulated
+on the computer, which is populated with artificial creatures (replicators)
+called "blocks" (because they appear as little squares on the screen.)
+<p>
+Blocks are like simple one celled organisms.  They move around in their 
+simulated world, sometimes eating each other and reproducing by a process
+of division. They eventually die. They have certain characteristics or 
+"attributes" which determine how
+they act. These attributes might cause them to live longer and reproduce
+more, or die quickly - perhaps not reproducing at all.
+<p>
+When blocks divide, giving birth to a new block, random mutations can
+happen to the block's attributes. These mutations could make the new block
+more or less "fit" in terms longevity and reproduction. The idea is that we
+would expect to see the block attributes "evolving" over time, based on
+a process of selection.
+<p>
+<b>Basic System Objects</b>
+<p>
+TBD
+<p>
+<b>Turns and Moves</b>
+<p>
+TBD
+<p>
+<b>Variables, Actions, and Events</b>
+<p>
+TBD - See <a href="file:/home/mike/public_html/private/ttd/Projects/Evolution/Blocks/Documentation/Diagram1.txt">diagram</a>, 
+	<a href="file:/home/mike/public_html/private/ttd/Projects/Evolution/Blocks/Documentation/Variables.txt">variables</a>, 
+	<a href="file:/home/mike/public_html/private/ttd/Projects/Evolution/Blocks/Documentation/Actions.txt">actions</a>, 
+<p>
+<b>Decision Making vs Basic Constraints</b>
+<p>
+TBD
+<p>
+<b>The Decision Making Process</b>
+<p>
+Each time a block gets to move, it goes through a decision process something
+like this:
+<ol>
+<li> Look at any other blocks that I'm in physical contact with, and decide
+	 which (if any) of them looks the most "interesting."
+<li> Decide what action I want to take with regard to the "interesting" 
+	 block. Possibilities are: Move away from it, fight with it, try
+	 to eat it, or do nothing.
+<li> If no blocks were touching me, or if none of them was interesting, then
+	 examine all the block in my field of vision to see if any of them is
+	 interesting.
+<li> If so, decide on an action for that block. Possibilities are: Move
+	 toward it, move away from it, or do nothing.
+<li> If I didn't discover anything to do with any other block, then decide
+	 if I want to do some "other" action. Possibilites are: random move,
+	 divide, or ?
+</ol>
+<p>

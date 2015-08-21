@@ -1,0 +1,36 @@
+head	1.1;
+access;
+symbols;
+locks
+	root:1.1; strict;
+comment	@# @;
+
+
+1.1
+date	2002.02.13.07.36.07;	author root;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@<title>Download Sim8 for a Microsoft system</title>
+<h2>Download Sim8 for a Microsoft system</h2>
+<ol>
+<li> Create the directory that you want Sim8 to be in.
+<p>
+<li> Then start the download: <a href="Sim8-12Feb2002.zip">click here</a>
+<p>
+	Make sure that you tell your browser to put the download file
+	in the directory you created in step one.
+<p>
+<li> You must use a DOS shell to execute the program. All you need to
+	do is to say: java -jar Sim8.jar
+@

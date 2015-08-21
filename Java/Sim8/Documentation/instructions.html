@@ -1,0 +1,110 @@
+<title>The Sim8 Instruction Set</title>
+<body bgcolor=ffffff>
+<h2>The Sim8 Instruction Set</h2>
+<hr>
+<p>
+Sim8 has three "classes" of instructions. Each class follows a "similar"
+format, in terms of how the instructions are decoded, although there are
+exceptions. It is probably simplest to work with the instruction set in
+binary, since that makes it easier to decode the different instruction
+fields.
+<p>
+<b>Class 0 Instructions</b>
+<p>
+There are only two Class 0 instructions:
+<pre>
+[0 0 0 0 0 0 0 0] = nop
+</pre>
+When the CPU encounters a nop (no operation) instruction, the program
+counter is simply incremented to point to the next memory location.
+<pre>
+[1 1 1 1 1 1 1 1] = halt
+</pre>
+A halt instruction causes the CPU to stop processing, and sets the
+"Processor Halted" bit in the status register. In order to re-start
+the computer you need to either reset it or power it off and on.
+<p>
+<b>Class I Instructions</b>
+<p>
+Class I instructions follow this format in the instruction
+word:<code> [I I I I M M R R]</code>. Where the four "I" bits specify the
+op code, the two "M" bits specify the type of addressing, and the two
+"R" bit indicate which register is addressed (for "register" addressed
+operations.)
+<p>
+With 4 bits used for the op code there can be up to 15 instructions
+in this class, leaving the last bit pattern to indicate the next class.
+<p>
+The two address "mode" bits (M) are decoded as follows:<pre>
+00: Register - the (R) bits address one of four CPU registers
+01: Direct - the next instruction word gives the operands memory address
+10: Indirect - the IX register gives the operand's memory address
+11: Immediate - operand follows in the next instruction word
+</pre>
+When the "register" addressing mode is used, the (R) bits are decoded
+as follows:
+<pre>
+00: accumulator (AC)
+01: index register (IX)
+10: stack pointer (SP)
+11: status register (ST)
+</pre>
+The following are the Class I instructions (enumerated in decimal):
+<pre>
+ 0. jmp (See notes 1 and 2 below)
+ 1. lda (load the accumulator from specified address)
+ 2. sta (store accumulator, or "load register immediate" - see note 3 below)
+ 3. add (add operand to the accumulator)
+ 4. sub (subtract operand from the accumulator)
+ 5. mul (multiply accumulator by the operand)
+ 6. div (divide accumulator by the operand)
+ 7. and (logical and with accumulator)
+ 8. or  (logical or with accumulator)
+ 9. xor (exclusive or with accumulator)
+10. cmp (compare to accumulator and set status bits)
+11. UNUSED
+12. UNUSED
+13. UNUSED
+14. UNUSED
+15. (a value 15 indicates a non-Class I instruction)
+</pre>
+<p>
+Note 1: for the "jmp" instructions, the decoding of the bits is a little bit
+different. The "register" addressing mode is not allowed, and the (R) bits
+indicate the conditional nature of the branch:
+<pre>
+00: branch unconditionally (jmp)
+01: branch if bit 0 of the status register is set (jlt if used after cmp)
+10: branch if bit 1 of the status register is set (jgt if used after cmp)
+11: branch if bits 0 and 1 are both clear (jeq if used after cmp)
+</pre>
+Note 2: since the "00" addressing mode is not allowed on a jmp instruction,
+this allows us to reserve the instruction <code>[0 0 0 0 0 0 0 0]</code> as
+"nop" (no operation.)
+<p>
+Note 3: For store instructions, the "immediate" addressing mode makes
+no sense. Therefore a "sta immediate" is actually used to load the operand
+into the register specified in the (R) bits. 
+<p>
+<b>Class II Instructions</b>
+<p>
+Class II instructions are the 14 instructions of the 
+form <code>[1 1 1 1 X X X X]</code> where <code>[1 1 1 1 1 1 1 0]</code> is
+reserved to indicate a non-Class II instruction (for future expansion.)
+Remember that <code>[1 1 1 1 1 1 1 1]</code> is halt. The class two 
+instructions are all one byte operations:
+<pre>
+ 0. in   (input a byte into the accumulator)
+ 1. out  (output a byte from the accumulator)
+ 2. rotl (rotate accumulator "up")
+ 3. rotr (rotate accumulator "down")
+ 4. not  (complement value in accumulator)
+ 5. UNUSED
+ 6. UNUSED
+ 7. UNUSED
+ 8. UNUSED
+ 9. UNUSED
+12. ret (return from subroutine)
+13. call (call a subroutine / push registers on stack)
+</pre>
+

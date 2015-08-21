@@ -1,0 +1,38 @@
+head	1.1;
+access;
+symbols;
+locks
+	mwitt:1.1; strict;
+comment	@# @;
+
+
+1.1
+date	2007.07.17.23.14.48;	author mwitt;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@<title>Boolean Networks</title>
+<table>
+<tr>
+<td>
+    <img src="BNet.jpg" height=400 width=304>
+</td>
+<td>
+    &nbsp&nbsp Sounds of Boolean networks converging:<br>
+    &nbsp&nbsp <a href="seed1.html">Seed: 1 (strings)</a><br>
+    &nbsp&nbsp <a href="seed1a.html">Seed: 1 (synth)</a><br>
+    &nbsp&nbsp <a href="seed0.html">Seed: 0 (piano)</a><br>
+</td>
+</tr>
+</table>
+@

@@ -1,0 +1,110 @@
+
+<title>Sim8 Quick Start Guide</title>
+<body bgcolor=ffffff>
+<h2>Sim8 Quick Start Guide</h2>
+<p>
+This sections gives a brief outline of how to download, install, and
+run the Sim8 microcomputer simulation. For more detailed information on
+the use of Sim8, see the <a href="index.html">documentation index.</a>
+<p>
+<b>Step1: Install Java on your computer</b>
+<p>
+In order to run Sim8 you need to have the Java runtime environment installed
+on your computer. This guide does not explain how to download and install
+Java.
+<p>
+<b>Step2: Download the Sim8 software</b>
+<p>
+Get one of these files:
+<ul>
+<li> <a href="../Sim8.jar">Sim8.jar</a>
+<li> <a href="../Sim8-13Feb2002.tar">Sim8-13Feb2002.tar</a>
+<li> <a href="../Sim8-13Feb2002.zip">Sim8-13Feb2002.zip</a>
+</ul>
+
+If you have any trouble
+<a href="../../../contact.html">let me know.</a>
+<p>
+<b>Step3: Run the simulator and load a program</b>
+<ul>
+<li> Go into the directory Sim8 was installed in
+<p>
+<li> Type: java -jar Sim8.jar
+	<p>
+	This will bring up the main Sim8 "Console" on your screen. The console
+	contains a display of all the CPU registers, and it has several buttons
+	on it, including buttons that say "Power", "Load", and "Run." Near the
+	top of the console are two menus labeled "Settings" and "Information."
+<p>
+<li> Press the "Power" button to turn the computer on.
+<p>
+<li> Go to the "settings" menu and within that to the "memory" submenu.
+	Choose the "Show Window" item. The "Sim8 Memory" window should appear.
+	This window shows all 256 memory locations. The default display is
+	in Hex, but you can change it to Decimal or Binary by doing:<br>
+		Settings->Memory->Display in Decimal (for example.)
+	<p>
+	Notice that all memory locations start out as zero.
+<p>
+<li> Press the "Load" button. This will bring up a file chooser dialog.
+	You should see the files in the "Programs" directory. Among these
+	should be a file called "count.ldf"  Select this file and load it
+	by pressing the "OK" button. Note that the first several locations
+	of memory have changed to the values of the loaded program.
+<p>
+<li> View the "count.ldf" file using the editor of your choice. It should
+	look something like this:
+<pre>
+# This program counts from 1 to 10
+!locdec
+!valbin
+#       lda     0
+000:00011100
+001:00000000
+#loop   add     1
+002:00111100
+003:00000001
+#       out
+004:11110001
+#       cmp     10
+005:10101100
+006:00001010
+#       jlt     loop
+007:00001101
+008:00000010
+#       halt
+009:11111111
+</pre>
+
+	Some comments about the load file format: First, any lines that start
+	with the "#" character are treated as comments by the loader. The comments
+	in the file above contain "mnemonic" representations of the machine	
+	language instructions, i.e. assembly language. 
+	<p>
+	The lines that have the form "number:number" provide the data which is
+	actually loaded into Sim8 memory. The number before the ":" is the 
+	memory location which is to be loaded. The number after the ":" is
+	the value which is to be loaded into that location.
+	<p>
+	The line "!locdec" tells the loader that the location field in this
+	load file is specified in decimal. The "!valbin" line indicates that
+	the value field is binary. It's convenient to specify machine language
+	instructions in binary because it makes it easy to encode and decode
+	the various bit fields.
+<p>
+<li> Now go back to the Menus and do: Settings->Output->Show Window<br>
+	This should display the "Output" window. 
+<p>
+<li> Then press the "Run" button. You should see the program count from
+	"01" to "0a" in the output window. The default displays are all in
+	hex. If you would rather see the output in decimal, do:<br>
+	Settings->Output->Display in Decimal.
+<p>
+<li> If you want to re-run the program, you need to press the "Reset"
+	button first, so set the program counter back to zero. Pressing reset
+	clears all the registers. Turning "Power" off and on clears everything
+	including zeroing out any programs loaded into memory.
+<p>
+<li> If you are having problems, do: Settings->Debug Window->Show Window<br>
+	This will bring up a window which displays error messages.
+<ul>

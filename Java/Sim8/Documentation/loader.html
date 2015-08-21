@@ -1,0 +1,56 @@
+<title>Sim8 Loader</title>
+<body bgcolor=ffffff>
+<h2>Sim8 Loader</h2>
+<p>
+When you press the "Load" button on the front panel, the Sim8 "Loader"
+starts up. A load file is a series of lines each of which specifies
+a single (byte) value to be loaded into a specific Sim8 memory location.
+<p>
+First comes the location, then a ":", and then the value. For example:
+<pre>
+000:100
+001:200
+002:300
+</pre>
+Would load the value 100 into memory location zero, 200 into location
+1, and 300 into location 2.
+<p>
+A line that starts with a "!" is a command to the loader. These commands
+can be used to control the "radix" of the load file (that is, whether
+the location and value fields are specified in Hex, Decimal, or Binary.)
+<p>
+For example:
+<pre>
+!locdec - indicates that the locations are specified in decimal
+!valhex - indicates that the values are in hex
+!bin - says that both location and value fields are in binary
+</pre>
+Most of the example programs have their locations in decimal and their
+values in binary. This is because the instructions are easier to 
+read in binary.
+<p>
+Lines that start with a "#" are comments, and are ignored by the
+loader.
+<p>
+Example:
+<pre>
+# This program counts from 1 to 10
+!locdec
+!valbin
+#       lda     0
+000:00011100
+001:00000000
+#loop   add     1
+002:00111100
+003:00000001
+#       out
+004:11110001
+#       cmp     10
+005:10101100
+006:00001010
+#       jlt     loop
+007:00001101
+008:00000010
+#       halt
+009:11111111
+</pre>

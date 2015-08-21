@@ -1,0 +1,40 @@
+head	1.1;
+access;
+symbols;
+locks
+	root:1.1; strict;
+comment	@# @;
+
+
+1.1
+date	2002.02.13.07.36.07;	author root;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@<title>Download Sim8 for a Unix system</title>
+<h2>Download Sim8 for a Unix system</h2>
+<ol>
+<li> To start the download: <a href="Sim8-12Feb2002.tar">click here</a>
+<p>
+<li> After the download completes, make the directory you want to put
+	Sim8 in, and then extract it from the tar file. After that, you
+	can either read the documentation by pointing a browser at
+	the file Documentation/index.html, or else start Sim8 as shown
+	below and then use the Information->Documentation menu.
+<pre>
+	mkdir Sim8
+	cd Sim8
+	tar xvf Sim8-12Feb2002.tar
+	java -jar Sim8.jar
+</pre>
+@

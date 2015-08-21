@@ -1,0 +1,389 @@
+<title>Introduction to the "Blocks" program</title>
+<body bgcolor=ffffff>
+<center>
+<h2>Introduction to the "Blocks" program</h2>
+Release 0.1 - July 2002
+</center>
+<hr>
+<b>Overview</b>
+<p>
+"Blocks" is a Java program that was written as an experiment in simulating
+natural selection. The replicators are little square shapes (the "blocks")
+and the environment they exist in is a rectangular grid on the computer screen.
+<p>
+The blocks are capable of four kinds of actions: moving, fighting, eating, 
+and dividing. Each block has internal logic called a "decision procedure"
+that determines what action it will take, based on the conditions that it
+finds itself in.
+<p>
+When a block divides, the child block inherits the parent's decision
+procedure. However random mutations happen, so that the child doesn't
+always get an exact copy of the decision procedure of the parent. The
+hope is that, as the simulation runs, natural selection will operate -
+resulting in blocks that have more effective decision procedures.
+<p>
+<b>Running the Simulation</b>
+<p>
+The software comes as a Java "jar" file, called <i><b>blocks.jar</b></i>.
+If you are unable to download the file from this site, please
+<a href="http://web.pdx.edu/~mwitt/contact.html">contact Mike Witt</a>.
+<p>
+In order to run the program, you need to have the Java runtime environment
+installed on your computer. If you don't have Java installed, one way to
+get it is to visit the Sun Java Pages at: <a href="http://java.sun.com">
+http://java.sun.com</a> and follow the instructions there.
+<p>
+One you have Java installed, you can run the blocks simulation by
+typing the command:<br>
+<i><b>java -jar blocks.jar</b></i>
+<p>
+<b>The Components of the Simulation</b>
+<p>
+Below is a screen shot of a simulation in progress. A number
+of the system components are visible: the Blocks Console, the Status Window,
+the Debug Window, and a Chart which graphs information about the
+characteristics of the block decision procedures.
+<p>
+<img src="screen1.jpeg" height=400, width=600>
+<p>
+All in all there are seven major components of the blocks system:
+<ol>
+<li> The Console
+<li> The World
+<li> The Blocks 
+<li> A Status Window 
+<li> One or more Debug Windows
+<li> A Command Window
+<li> Various Graphs
+</ol>
+<p>
+<b>The Console and the World</b>
+<p>
+When the simulation first starts, you will be confronted with a blank
+console screen and a debug window, which will look something like this:
+<p>
+<img src="con1.jpeg">
+<p>
+The Console window contains menus at the top, and has a big rectangular
+area, which represents the "world" that the blocks live in. The first
+thing you are probably going to want to do is to go to the "Console"
+menu (on the left) and select the "Type 1 World" menu item. This will
+create a world of blocks and draw them on the console:
+<p>
+<img src="con2.jpeg">
+<p>
+You will also probably see a Status Window pop up. That will be described
+later.
+<p>
+After that, go to the "World Operations" menu and select start. This will
+start the simulation running, and you should see the blocks moving around
+the screen, eating each other and so on. When blocks turn black it means
+that they have died, but not been eaten yet.
+<p>
+It's possible that the world you have just created might run for quite
+a while, or the blocks might all die out after only a short time. It you
+want to stop the world, go to the "World Operations" and select "Stop"
+<p>
+To exit the entire program, go to the "Console" menu and select "Exit Program"
+<p>
+<b>Blocks and Decision Procedures</b>
+<p>
+The way the simulation operates is that each block in turn gets a chance
+to "make a move" over and over again, as long as there are any live blocks
+left in the world.
+<p>
+When the block gets its move, it "looks around" to see what kind of other
+blocks it is touching or close to, and then it invokes its "decision
+procedure" to tell it what to do. For example, it might decide to try
+to "chase" another block, or "run away" from it, perhaps based on the
+size of the other block or whether or not they are the same color.
+<p>
+The simulation currently has four different kinds of decision procedures.
+When you select "Type 1 World" from the "Console" menu, you are creating
+a world of blocks that has the first type of decision procedure (referred
+to as DP1.) When you select the "Type 4 World" you get a DP4 decision
+procedure. DP1 is the simplest decision procedure and DP4 is the most
+complex.
+<p>
+The decision procedures are overall "frameworks" for decision making, but
+the exact decisions that get made depend on the specific "characteristics"
+of the individual block. These "characteristics" or "attributes" are
+randomly generated when the world is created. All blocks in a given world
+get the same decision procedure, but each color of block gets different
+"characteristics."  When blocks divide, their offspring inherit their
+characteristics (but mutations occur at random, so that new characteristics
+are periodically introduced.)
+<p>
+<b>DP1 and 2</b>
+<p>
+DP1 and DP2 are very similar. When using one of these decision procedures,
+each block has the following four characteristics, which can take on
+the values indicated:
+<pre>
+Characteristic   Possible Values
+--------------   ---------------
+HOW_MOVES        RANDOM, TOWARD_ALL, AWAY_ALL, TOWARD_SAME, TOWARD_OTHER, ...
+HOW_EATS         NONE, OTHER, ALL
+HOW_DIVIDES      NEVER, SOON, LATER
+DEFENDS_SELF     TRUE, FALSE
+</pre>
+So, for example, a block that has HOW_MOVES = TOWARD_ALL will always "chase"
+all other blocks. One that has HOW_MOVES = RANDOM will simply wander around
+the screen. Some values of characteristics are obviously losers, from the
+natural selection perspective, such as HOW_DIVIDES = NEVER. We expect to see
+these values "die out" as the simulation progresses.
+<p>
+If you do a "left click" with the mouse on a block, 
+various information about that block will be dumped to the debug window, 
+including all the values of its decision procedure characteristics:
+<pre>
+World 0: Block 10: Block 10: dpType=1, location=(152,83), energy=784, size=28, age=0
+World 0: Block 10:   dead=false, deleted=false
+World 0: Block 10:   HOW_MOVES = TOWARD_OTHER
+World 0: Block 10:   HOW_EATS = OTHER
+World 0: Block 10:   HOW_DIVIDES = LATER
+World 0: Block 10:   DEFENDS_SELF = TRUE
+World 0: Block 10:   color = java.awt.Color[r=255,g=0,b=0]
+World 0: Block 10:   closest block to me is 8 (distance is 3)
+</pre>
+<p>
+<b>DP3</b>
+<p>
+DP3 has a more sophisticated mechanism. It goes through five "stages" of
+decision making:
+<ol>
+<li> Look at all the blocks that I'm touching and select the one that is
+	the most "interesting"
+<p>
+<li> Decide what action to perform on the "interesting" block. Possibilities
+	are: (1) fight with it, (2) try to eat it, (3) move away from it.
+<p>
+<li> Look at all the blocks that are within my field of vision and decide
+	which one is the most interesting.
+<p>
+<li> Decide to: (1) Move toward the interesting block, or (2) move away from 
+	it.
+<p>
+<li> If I didn't find anything to do in any of the previous stages, then
+	I have the choice of either making a random move, or trying to divide.
+	In DP3 this last decision is hard coded that I will try to divide if
+	I have enough energy to do so. Otherwise, I will make a random move.
+</ol>
+<p>
+In order to make each of these decisions (other than the last one) there is
+a "weighted network", for which the inputs are the things that the block
+knows (the sizes, colors, and so on of the blocks involved.)  When we
+are trying to select which block is interesting, the outputs are the candidate
+blocks themselves. When we are trying to decide which actions to do, the
+outputs are the potential actions.
+<p>
+In DP3, what is inherited by a child block is the "weights" from the
+decision networks. Here is part of the output of a left click on a
+type 3 block:
+<pre>
+World 0: Block 13: Block 13: dpType=3, location=(155,176), energy=841, size=29, age=0
+World 0: Block 13:   dead=false, deleted=false
+World 0: Block 13:   Weights:
+                      Stage[0].DIFFERENT = 10
+                      Stage[0].BIGGER = 5
+                      Stage[0].HUNGRY = 0 
+                      Stage[0].RELATED = 0
+                      Stage[0].DEAD = 5 
+                      Stage[0].THRESHOLD = 7
+                      Stage[1].DF_M = 1
+                      Stage[1].BIG_M = 5
+                      Stage[1].HGY_M = 10
+                      Stage[1].REL_M = 5
+                      Stage[1].DED_M = 4
+                      Stage[1].DF_F = 10
+                      Stage[1].BIG_F = 1
+                      Stage[1].HGY_F = 1 ...
+</pre >
+The output would go on for a while, until all the weights had dumped out.
+Here is how to interpret the weights. For stage[0] (the first of the
+five stages described above) each line tells how much weight the attribute
+named contributes to the candidate block in question. So, it the block
+being examined is a different color that the block making the decision,
+then 10 will be added to that block's score. If it is bigger, then 5
+will be added. When all the weights are added up, they have to exceed
+the threshold (in this case 7) for that block to be a possibility as
+the most "interesting" block. Whether it is actually selected or not
+depends on whether its final score is higher than any of the other
+blocks that were considered.
+<p>
+In stage 1 we have already selected a block and we are trying to figure
+out which of the 3 actions we are going to do (fight, eat, move.)  The
+(rather cryptic) notations mean:
+<p>
+<pre>
+DF = Different
+BIG = Bigger 
+HGY = Hungry (this means the block making the move is hungry)
+REL = The 2 blocks are "related" (one is the parent of the other)
+DED = The target block is dead
+M = move
+F = fight
+E = eat
+</pre>
+So, in the output above, "Stage[1].DED_M = 4" means that in the second
+stage, the target block being dead adds a weight of 4 to the move action.
+"Stage[1].DF_F = 10" means that if the target block is a different color
+a weight of 10 is added to the fight action. In the end, the action with
+the highest score wins.
+<p>
+<b>DP4</b>
+<p>
+DP4 is similar to DP3 in that it has the same five stage decision process.
+In DP4 all 5 stages are determined by weighted networks. The networks in
+DP4 are a little bit more sophisticated than those of DP3. For example,
+the DP4 networks contain weights for both "true" and "false" values of
+the inputs. This means that, for example, one weight can be given to
+the condition that the target block is bigger and a separate weight can
+be given to the condition that the target block is not bigger. In the
+"left click" output, the "false" input weights are denoted by a tilde:
+<pre>
+World 0: Block 11: Block 11: dpType=4, location=(231,69), energy=900, size=30, age=0
+World 0: Block 11:   dead=false, deleted=false
+World 0: Block 11:   stbNet:
+                      SelectNet(ChooseTouching)
+                      different---(-4)--> block
+                      ~different---(7)--> block
+                      bigger---(7)--> block
+                      ~bigger---(5)--> block
+                      related---(-8)--> block
+                      ~related---(7)--> block
+                      dead---(-4)--> block
+                      ~dead---(2)--> block ...
+</pre>
+It's easier to get a handle on what the decision networks are doing by
+examining type 4 blocks. Although you can get a dump of the weights by
+doing a left click, with a type 4 block there is a much better way.
+You can do a Shift-Control-LeftClick and get a tool that lets you
+visually examine and experiment with one of the block's decision networks.
+The process goes like this:
+<ol>
+<li> Stop the world, if it is currently running.
+<p>
+<li> Hold down the shift and control keys, while clicking on a type 4
+	block with the left mouse button.
+<p>
+<li> A dialog box will come up asking you which network you want to
+	examine. Here is what the choices mean:<br>
+	stb: the network that chooses the most interesting "touching" block<br>
+	sta: network that chooses action on the touching block<br>
+	ssb: network for choosing the "in sight" block<br>
+	ssa: for the action on the "in sight" block<br>
+	soa: for the action if nothing happened in the first four stages<br>
+<p>
+<li> After you choose the network, the "Visual Network Inspector"
+	tool will come up, allowing you to experiment with the requested
+	network. The screen shot below shows it being used with the network
+	that determines the action on the most interesting "touching" block.
+	I need to write a more complete description of this tool, but the
+	most important things to know are that (1) left clicking on an input 
+	node turns it on and off, (2) the "w" command can be used to change
+	the weights (type "help" in the "Command:" input box for command
+	names), and (3) Shift-Left clicking on an input or output node will
+	show or hide the weights in its connections.
+</ol>
+<p>
+<img src="vni.jpeg">
+<p>
+<b>The Status Window</b>
+<p>
+Every time a world is created, an associated Status Window is displayed:
+<p>
+<img src="status.jpeg">
+<p>
+The Status Window displays various information about the running world.
+The most interesting counters are probably turns, moves, births, deaths,
+and mutations. A "move" happens every time each individual blocks gets
+to do something. A "turn" is defined as one "sweep" through all the
+blocks in the world, each block getting one move. A "birth" is counted
+every time a block divides, creating a new block. A "death" simply means
+that a block has died. This can happen either because it was killed by
+another block, or because it died of "old age."
+<p>
+Mutations tells you how many times the characteristics inherited by
+a child block have been randomly changed so that they are no longer
+exactly the same as the characteristics of the parent.
+<p>
+<b>Debug Windows</b>
+<p>
+Each object in the Blocks system has the ability to output debug messages
+to a specified Debug Window. By default one main debug window is created
+when the system starts up, and all messages go there. However, other
+windows can be created. For example, if you do a Shift-Left click on a
+block, it will create a separate Debug Window for that one block.
+<p>
+<b>The Command Window</b>
+<p>
+The things that can be accomplished with the menus on the Block Console
+are limited. To do more complicated things, you need to use the Command
+Window. 
+<p>
+Go to the "Console" menu and select the "Command Window" item. When the
+command window comes up, go to the text field on the top and type "help"
+and you should see something like this:
+<p>
+<img src="command.jpeg">
+<p>
+Probably the most interesting command is "logWorld" which allows you
+to start up a world with a "logger" that keeps track of various information
+and presents it on graphical charts described later.
+<p>
+For example: <b><i>logWorld 1 250 200 true foo.log</i></b><br>
+Will start up a "type 1" world with a logger. The logger will take a
+snapshot of the state of the world (and graph it) every 250 turns. There
+will a total of 200 snapshots on the graph. The "true" parameter means
+that the logger will stop the world at the end of the 200 snapshots.
+If we had put "false" here, then the logger would simply continue,
+and the graph would become a "sliding window" showing the most recent
+200 data points.
+<p>
+The last parameter is the name of a file to output log data to. You
+MUST give it the name of a file that DOES NOT exist yet, or the program
+will simply crash. This is a bug that needs to be fixed.
+<p>
+You will get different graphs depending on what type of world you 
+are running.
+<p>
+<b>Graphs</b>
+<p>
+Whenever you have a logger running you will at least get this graph of
+"System Variables"
+<p>
+<img src="sysGraph.jpeg">
+<p>
+Keep an eye on the "Memory" chart. The current implementation appears
+to have problems with the JVM garbage collector, and you will likely
+see memory running out during a long run. 
+<p>
+The other graphs will depend on what type of world you have. This is
+because the "inheritable attributes" of the different types of blocks
+(based on their decision procedures) need to be displayed differently.
+<p>
+This is an example of the DP1/2 Attributes graph you will see for either
+a type 1 or type 2 world:
+<p>
+<img src="DP1Graph.jpeg">
+<p>
+Take a look at the DEFENDS_SELF attribute and notice that the number
+of blocks that have "FALSE" (they do not defend themselves) sinks down
+pretty quickly. No surprise here. Also, in HOW_DIVIDES, the number of
+blocks that never divide (the very small blue line in the lower left
+of that chart) dies out right away.
+<p>
+Once you get into the more sophisticated decision procedures it's not
+easy to come up with a "readable" graph of the average weights, so you
+might not be able to make too much of their graphs. I'm still looking
+for a better way to do this.
+<p>
+<b>Final Note</b>
+<p>
+This brief introduction does not touch on many aspects of the simulation.
+Please feel free to contact me if you would like further information.
+<p>
+Mike Witt<br>
+<a href="http://web.pdx.edu/~mwitt">
+http://web.pdx.edu/~mwitt</a>

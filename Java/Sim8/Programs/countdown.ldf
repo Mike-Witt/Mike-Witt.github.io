@@ -1,0 +1,23 @@
+!locdec
+!valbin
+# This program starts at M and counts down by N to one
+#		lda		m
+000:00010100
+001:00001010
+#loop	out	
+002:11110001
+#		sub		n
+003:01000100
+004:00001011
+#		cmp		0
+005:10101100
+006:00000000
+#		jgt		loop
+007:00001110
+008:00000010
+#		halt
+009:11111111
+#m		data	10
+010:00001010
+#n		data	1
+011:00000001

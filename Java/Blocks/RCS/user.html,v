@@ -1,0 +1,31 @@
+head	1.1;
+access;
+symbols;
+locks
+	mwitt:1.1; strict;
+comment	@# @;
+
+
+1.1
+date	2005.01.31.15.52.26;	author mwitt;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@<title>Blocks User Documentation - Internal Release 0.1</title>
+<body bgcolor=ffffff>
+<h2>Blocks User Documentation - Internal Release 0.1</h2>
+<hr>
+<b>Overview</b>
+<p>
+<p>
+@

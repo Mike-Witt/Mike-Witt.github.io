@@ -1,0 +1,171 @@
+!locdec
+!valbin
+#
+# To use any subroutine calls, we need to start out by settin up
+# the stack pointer. Our stack will start at the very top of memory
+# and grow downward.
+#
+#       lda     255 
+000:00011100
+001:11111111
+#       sta     SP
+002:00100010
+#
+# Then we jump over all the subroutines to the start of the 
+# actual program.
+#
+#		jmp		prog
+003:00001100
+004:01100100
+#
+# The "pdec" subroutine prints out the accumulator as a three digit 
+# decimal number.
+#
+#pdec	sta		save	; Save the working number
+005:00100100
+006:00110011
+#		cmp		10		; See if it's smaller than 10
+007:10101100
+008:00001010
+#		jlt		doones	; If so, skip to the ones logic
+009:00001101
+010:00101111
+#		cmp		100		; See if it's smaller than 100
+011:10101100
+012:01100100
+#		jlt		dotens	; If so, skip to the tens logic
+013:00001101
+014:00100000
+#		div		100		; Divide it by 100
+015:01101100
+016:01100100
+#		or		0x30	; Or 3 into the high nibble
+017:10001100
+018:00110000
+#		out				; Print the hundreds 
+019:11110001
+#		and		0xcf	; And the 3 back out
+020:01111100
+021:11001111
+#		mul		100		; We need this to mod the tens number by 100
+022:01011100
+023:01100100
+#		sta		mod		; Store the modulo factor
+024:00100100
+025:00110100
+#		lda		save	; Get working number back
+026:00010100
+027:00110011
+#      	sub		mod		; Subtract the modulo factor
+028:01000100
+029:00110100
+#		sta		save	; This becomes the new working number
+030:00100100
+031:00110011
+#dotens	div		10		; Now divide by 10
+032:01101100
+033:00001010
+#		or      0x30    ; Or in the 3
+034:10001100
+035:00110000
+#		out				; Print the tens 
+036:11110001
+#       and     0xcf    ; And out the 3
+037:01111100
+038:11001111
+#		mul		10		; Create a modulo 10 factor
+039:01011100
+040:00001010
+#		sta		mod		; And save it
+041:00100100
+042:00110100
+#		lda		save	; Get working number back again
+043:00010100
+044:00110011
+#		sub		mod		; Subtract the mod 10 factor
+045:01000100
+046:00110100
+#doones	 or      0x30    ; Or in the 3
+047:10001100
+048:00110000
+#       out             ; Print the ones 
+049:11110001
+#		ret				; Return to the calling program
+050:11111100
+#
+#save	data	0
+051:00000000
+#mod	data	0
+052:00000000
+#
+#
+# This is the test user program
+#
+#prog  	lda		255
+100:00011100
+101:11111111
+#		call	pdec
+102:11111101
+103:00000101
+#		lda		32
+104:00011100
+105:00100000
+#		out
+106:11110001
+#		lda		123
+107:00011100
+108:01111011
+#		call	pdec
+109:11111101
+110:00000101
+#		lda		32
+111:00011100
+112:00100000
+#		out
+113:11110001
+#		lda		99
+114:00011100
+115:01100011
+#		call    pdec
+116:11111101
+117:00000101
+#		lda		32
+118:00011100
+119:00100000
+#		out
+120:11110001
+#		lda		10
+121:00011100
+122:00001010
+#		call	pdec
+123:11111101
+124:00000101
+#		lda		32
+125:00011100
+126:00100000
+#		out
+127:11110001
+#		lda		5
+128:00011100
+129:00000101
+#		call	pdec
+130:11111101
+131:00000101
+#		lda		32
+132:00011100
+133:00100000
+#		out
+134:11110001
+#		lda		1
+135:00011100
+136:00000001
+#		call	pdec
+137:11111101
+138:00000101
+#		lda		10
+139:00011100
+140:00001010
+#		out
+141:11110001
+#		halt
+142:11111111

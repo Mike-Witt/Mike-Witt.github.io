@@ -1,0 +1,34 @@
+<title>Sim8 Status Register</title>
+<h2>Sim8 Status Register</h2>
+<hr>
+The SR contains shows the result of various operations and errors
+that might be encountered during the execution of a program.
+<p>
+<pre>
+bit0: Underflow
+bit1: Overflow
+bit2: Divide by zero
+bit3:
+bit4: Illegal instruction (user program will only see zero, since cpu will halt)
+bit5: Processor Halted (user program will only see zero)
+bit6: Machine cycle count (user programs only see zero)
+bit7: Machine cycle count (user programs only see zero)
+
+After an add or multiply operation, bits 0 and 1 are interpreted like this:
+
+00: no carry, the full result is in the accumulator
+01: (can't happen)
+10: there was an overflow or carry
+
+After a subtract or divide operation, bits 0 and 1 are interpreted like this:
+
+00: no borrow, the full result is in the accumulator
+01: underflow or borrow
+10: (can't happen)
+
+After a compare operation, bits 0 and 1 are interpreted like this:
+
+00: accumulator was equal too compared value
+01: accumulator was less than compared value
+10: accumulator was greater than compared value
+

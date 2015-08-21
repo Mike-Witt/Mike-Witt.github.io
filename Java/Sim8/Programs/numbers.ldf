@@ -1,0 +1,56 @@
+!locdec
+!valbin
+#
+# Count using a subroutine that prints out numbers in ascii
+#
+#       lda     255     ; first we have to set up the stack
+000:00011100
+001:11111111
+#       sta     SP
+002:00100010
+#
+#		lda		0
+003:00011100
+004:00000000
+#loop	add		1
+005:00111100
+006:00000001
+#		call	print
+007:11111101
+008:00001111
+#		cmp		9		; The print subr will only work up to nine :-)
+009:10101100
+010:00001001
+#		jlt		loop
+011:00001101
+012:00000101
+#		halt
+013:11111111
+#
+#save	data
+#014:(don't need to load any value here)
+#
+#print	sta		save	; save accumulator
+015:00100100
+016:00001110
+#		div		16		; shift the high nibble to low 
+017:01101100
+018:00010000
+#		add		0x30	; or 3 into high nibble
+019:00111100
+020:00110000
+#		out				; print high digit
+021:11110001
+#		lda		save	; get back orig acc value
+022:00010100
+023:00001110
+#		and		0x0f	; or out high nibble
+024:01111100
+025:00001111
+#		or		0x30	; or in the 3
+026:10001100
+027:00110000
+#		out				; print low digit
+028:11110001
+#		ret				; return to caller
+029:11111100
