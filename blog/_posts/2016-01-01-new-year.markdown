@@ -1,7 +1,0 @@
----
-layout: post
-title:  "New Year 2016"
-date:   2016-01-01 00:00:00 -0800
-categories: tests holidays
----
-Happy New Year!
