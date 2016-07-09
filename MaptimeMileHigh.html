@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<link rel="shortcut icon" href="http://leafletjs.com/docs/images/favicon.ico"/>
+<title>Leaflet Meetup Map</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet"
+    href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css"
+/>
+</head>
+
+<body>
+<hr>
+<center>
+<h1>MaptimeMileHigh - July 2016</h1>
+</center>
+<hr>
+
+<center>
+<div id="mapid" style="width: 800px; height: 600px"></div>
+
+<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+<script>
+
+    var mymap = L.map("mapid").setView([39.74, -104.97], 11);
+    var demo_token = "pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw"
+    var my_token   = "pk.eyJ1IjoibXcxNzgiLCJhIjoiY2lwdWNmcjh3MGNnOGgxbnJnMmw0NzkxbyJ9.auUPVsxLa6mCo8pLHcUXag"
+    var mapbox = "https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=" + my_token
+
+    L.tileLayer( mapbox, { 
+        maxZoom: 18,
+        attribution: "Map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> contributors, " +
+            "<a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, " +
+            "Imagery © <a href=\"http://mapbox.com\">Mapbox</a>",
+        id: "mapbox.streets"
+    }).addTo(mymap);
+
+    L.marker([39.751586, -104.99699]).addTo(mymap)
+        .bindPopup(
+            "<b>80202</b><br>Chad<br>Nell<br>Neal<br>Pam<br>Matt<br>Jake<br>Justin<br>Ricardo<br>Thomas<br>Mike<br>Chris<br>Mike<br>Jordan")
+    L.marker([39.726303, -104.856808]).addTo(mymap)
+        .bindPopup(
+            "<b>80201</b><br>Kyle<br>Katy<br>Jeff<br>Sarah<br>Emily<br>Amanda<br>AP<br>Clayton<br>Sarah")
+    L.marker([39.706535, -104.96698]).addTo(mymap)
+        .bindPopup(
+            "<b>80209</b><br>Dorothy<br>Taylor<br>Richard<br>Chase<br>Susan<br>alex<br>Mary<br>James")
+    L.marker([40.044385, -105.21928]).addTo(mymap)
+        .bindPopup(
+            "<b>80301</b><br>Jennings<br>Bill<br>Casey<br>Rachel<br>James<br>Billy<br>Robert")
+    L.marker([39.731286, -104.98306]).addTo(mymap)
+        .bindPopup(
+            "<b>80203</b><br>Margaret<br>Alyssa<br>Michael<br>Will<br>Chad<br>Marcelle")
+    L.marker([39.767536, -105.01973]).addTo(mymap)
+        .bindPopup(
+            "<b>80211</b><br>Kelly<br>Nate<br>Todd<br>Alan")
+    L.marker([39.668576, -105.09191]).addTo(mymap)
+        .bindPopup(
+            "<b>80227</b><br>Doug<br>Matthew<br>Jeffrey<br>Adrielle")
+    L.marker([39.739387, -104.8621]).addTo(mymap)
+        .bindPopup(
+            "<b>80010</b><br>Jesse<br>Marcus<br>Cassandra")
+    L.marker([39.681687, -104.88338]).addTo(mymap)
+        .bindPopup(
+            "<b>80231</b><br>Andrew<br>David<br>Sara")
+    L.marker([39.643637, -104.90406]).addTo(mymap)
+        .bindPopup(
+            "<b>80237</b><br>Pat<br>Jacob<br>Holly")
+    L.marker([39.731237, -104.97133]).addTo(mymap)
+        .bindPopup(
+            "<b>80218</b><br>Joe<br>Jennifer<br>Karun")
+    L.marker([39.759386, -104.91945]).addTo(mymap)
+        .bindPopup(
+            "<b>80207</b><br>Dorothy<br>lara")
+    L.marker([39.669237, -104.92766]).addTo(mymap)
+        .bindPopup(
+            "<b>80222</b><br>Ian<br>Mike")
+    L.marker([40.020885, -105.29673]).addTo(mymap)
+        .bindPopup(
+            "<b>80302</b><br>Justin<br>Daniel")
+    L.marker([39.642572, -105.36812]).addTo(mymap)
+        .bindPopup(
+            "<b>80439</b><br>Sean<br>jeremy")
+    L.marker([39.610431, -104.88139]).addTo(mymap)
+        .bindPopup(
+            "<b>80111</b><br>Sarah<br>Michael")
+    L.marker([40.156035, -105.17365]).addTo(mymap)
+        .bindPopup(
+            "<b>80503</b><br>David<br>Amber")
+    L.marker([39.758986, -104.96678]).addTo(mymap)
+        .bindPopup(
+            "<b>80205</b><br>Christopher<br>Owen")
+    L.marker([39.866785, -105.04143]).addTo(mymap)
+        .bindPopup(
+            "<b>80031</b><br>James<br>Samantha")
+    L.marker([39.734387, -104.91678]).addTo(mymap)
+        .bindPopup(
+            "<b>80220</b><br>Wesley<br>Anders")
+    L.marker([39.979691, -105.252586]).addTo(mymap)
+        .bindPopup(
+            "<b>80305</b><br>Owen<br>Jenny")
+    L.marker([40.606962, -105.05106]).addTo(mymap)
+        .bindPopup(
+            "<b>80524</b><br>Bruce<br>Aaron")
+    L.marker([39.579454, -104.88288]).addTo(mymap)
+        .bindPopup(
+            "<b>80112</b><br>David<br>Matt")
+    L.marker([39.731237, -104.95243]).addTo(mymap)
+        .bindPopup(
+            "<b>80206</b><br>Tony<br>caseyc")
+    L.marker([39.734686, -105.01966]).addTo(mymap)
+        .bindPopup(
+            "<b>80204</b><br>Lara<br>Grant")
+    L.marker([39.679437, -104.96473]).addTo(mymap)
+        .bindPopup(
+            "<b>80210</b><br>Tim<br>Mackenzie")
+    L.marker([39.816536, -105.01123]).addTo(mymap)
+        .bindPopup(
+            "<b>80221</b><br>Ken")
+    L.marker([39.795006, -105.0981]).addTo(mymap)
+        .bindPopup(
+            "<b>80002</b><br>Hilary")
+    L.marker([39.460306, -105.476]).addTo(mymap)
+        .bindPopup(
+            "<b>80421</b><br>Russell")
+    L.marker([39.903043, -104.9544]).addTo(mymap)
+        .bindPopup(
+            "<b>80233</b><br>Jaime")
+    L.marker([39.698387, -104.83956]).addTo(mymap)
+        .bindPopup(
+            "<b>80012</b><br>Cassandra")
+    L.marker([39.774341, -105.10036]).addTo(mymap)
+        .bindPopup(
+            "<b>80033</b><br>Pedro")
+    L.marker([39.929566, -104.94931]).addTo(mymap)
+        .bindPopup(
+            "<b>80241</b><br>Mike")
+    L.marker([40.039784, -105.27938]).addTo(mymap)
+        .bindPopup(
+            "<b>80304</b><br>Fletcher")
+    L.marker([39.599687, -105.00658]).addTo(mymap)
+        .bindPopup(
+            "<b>80120</b><br>dave")
+    L.marker([43.660525, -70.25862]).addTo(mymap)
+        .bindPopup(
+            "<b>04101</b><br>Aly")
+    L.marker([40.702348, -73.94288]).addTo(mymap)
+        .bindPopup(
+            "<b>11206</b><br>Santiago")
+    L.marker([30.320206, -97.74177]).addTo(mymap)
+        .bindPopup(
+            "<b>78756</b><br>Guthrie")
+    L.marker([39.45658, -105.36876]).addTo(mymap)
+        .bindPopup(
+            "<b>80470</b><br>tammi")
+    L.marker([40.435645, -105.08726]).addTo(mymap)
+        .bindPopup(
+            "<b>80538</b><br>Mike")
+    L.marker([40.171484, -105.10033]).addTo(mymap)
+        .bindPopup(
+            "<b>80501</b><br>N.W.")
+    L.marker([39.1013, -108.367]).addTo(mymap)
+        .bindPopup(
+            "<b>81526</b><br>Mike")
+    L.marker([48.747578, -122.48508]).addTo(mymap)
+        .bindPopup(
+            "<b>98225</b><br>chris")
+    L.marker([39.827903, -105.32256]).addTo(mymap)
+        .bindPopup(
+            "<b>80403</b><br>Melissa")
+    L.marker([32.704499, -114.64644]).addTo(mymap)
+        .bindPopup(
+            "<b>85364</b><br>Sally")
+    L.marker([39.745526, -105.06251]).addTo(mymap)
+        .bindPopup(
+            "<b>80214</b><br>Kathryn")
+    L.marker([33.640302, -117.769442]).addTo(mymap)
+        .bindPopup(
+            "<b>92628</b><br>Adam")
+    L.marker([39.813744, -105.50875]).addTo(mymap)
+        .bindPopup(
+            "<b>80422</b><br>Cody")
+    L.marker([39.825357, -105.06439]).addTo(mymap)
+        .bindPopup(
+            "<b>80003</b><br>Dave")
+    L.marker([39.739737, -104.80905]).addTo(mymap)
+        .bindPopup(
+            "<b>80011</b><br>Michelle")
+    L.marker([39.989135, -105.22883]).addTo(mymap)
+        .bindPopup(
+            "<b>80303</b><br>Kiri")
+    L.marker([39.737929, -104.985036]).addTo(mymap)
+        .bindPopup(
+            "<b>80261</b><br>Marlin")
+    L.marker([39.738752, -104.408349]).addTo(mymap)
+        .bindPopup(
+            "<b>80208</b><br>ethan")
+    L.marker([37.295888, -107.84945]).addTo(mymap)
+        .bindPopup(
+            "<b>81301</b><br>Mike")
+    L.marker([41.898582, -87.6371]).addTo(mymap)
+        .bindPopup(
+            "<b>60610</b><br>Greg")
+    L.marker([39.616114, -105.07393]).addTo(mymap)
+        .bindPopup(
+            "<b>80123</b><br>Kelli")
+    L.marker([38.834282, -104.81654]).addTo(mymap)
+        .bindPopup(
+            "<b>80903</b><br>Zach")
+    L.marker([40.072246, -76.3155]).addTo(mymap)
+        .bindPopup(
+            "<b>17601</b><br>Kumiko")
+    L.marker([39.830936, -105.03736]).addTo(mymap)
+        .bindPopup(
+            "<b>80030</b><br>Henry")
+    L.marker([38.952366, -104.76701]).addTo(mymap)
+        .bindPopup(
+            "<b>80920</b><br>Michael")
+    L.marker([29.876944, -97.94668]).addTo(mymap)
+        .bindPopup(
+            "<b>78666</b><br>Sara")
+    L.marker([39.646847, -104.99076]).addTo(mymap)
+        .bindPopup(
+            "<b>80110</b><br>David")
+    L.marker([39.963322, -105.15053]).addTo(mymap)
+        .bindPopup(
+            "<b>80027</b><br>chris")
+    L.marker([39.735745, -105.19337]).addTo(mymap)
+        .bindPopup(
+            "<b>80401</b><br>David")
+    L.marker([39.382543, -104.42847]).addTo(mymap)
+        .bindPopup(
+            "<b>80117</b><br>Sarah")
+    L.marker([39.881608, -105.09953]).addTo(mymap)
+        .bindPopup(
+            "<b>80021</b><br>Deb")
+    L.marker([39.514738, -105.31198]).addTo(mymap)
+        .bindPopup(
+            "<b>80433</b><br>Aaron")
+    L.marker([40.505253, -74.50723]).addTo(mymap)
+        .bindPopup(
+            "<b>08873</b><br>Jimmy")
+    L.marker([39.035216, -104.69575]).addTo(mymap)
+        .bindPopup(
+            "<b>80908</b><br>Laura")
+    L.marker([39.784622, -104.96214]).addTo(mymap)
+        .bindPopup(
+            "<b>80216</b><br>DeAndre")
+    L.marker([39.9091, -105.00829]).addTo(mymap)
+        .bindPopup(
+            "<b>80234</b><br>Kelli")
+
+    var popup = L.popup();
+
+    /*
+    function onMapClick(e) {
+        popup
+            .setLatLng(e.latlng)
+            .setContent("You clicked the map at " + e.latlng.toString())
+            .openOn(mymap);
+    }
+    */
+
+    mymap.on("click", onMapClick);
+</script>
+</div>
+</center>
+
+</body>
+</html>
+
